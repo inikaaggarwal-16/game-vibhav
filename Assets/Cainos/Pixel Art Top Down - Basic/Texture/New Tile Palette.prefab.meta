@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Cainos.meta
+guid: 581177ea0317fb743af1269f10f09e26
+folderAsset: yes
+DefaultImporter:
+========
 guid: fac9b68416255a4429ed7c6e1dfa66ad
 PrefabImporter:
+>>>>>>>> ayush:Assets/Cainos/Pixel Art Top Down - Basic/Texture/New Tile Palette.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
