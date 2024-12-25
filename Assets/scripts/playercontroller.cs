@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
             terrainToDisable = collision.gameObject;
 
             
-            Invoke("DisableTerrain", 1f);
+            Invoke("DisableTerrain", 0f);
         }
     }
 
