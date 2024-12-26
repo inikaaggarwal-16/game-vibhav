@@ -30,7 +30,7 @@ public class TimeLeapOnCollision : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (positionHistory.Count >= 3)
+            if (positionHistory.Count >= 5)
             {
                 Vector3 positionToRewind = positionHistory[positionHistory.Count - 3];
                 player.transform.position = positionToRewind;
