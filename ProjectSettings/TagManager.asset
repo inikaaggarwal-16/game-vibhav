@@ -28,7 +28,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - SpecialObjects
   - Layer 1
   - Layer 2
   - Layer 3
@@ -44,6 +44,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: SpecialLight
+    uniqueID: 3847816427
     locked: 0
   - name: Layer 1
     uniqueID: 2425651459
