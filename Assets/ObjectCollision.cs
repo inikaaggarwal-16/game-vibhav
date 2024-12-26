@@ -77,4 +77,6 @@ public class ObjectCollision : MonoBehaviour
         Time.timeScale = 0;
         Debug.Log("Game Over");
     }
+
+
 }
