@@ -1,26 +1,19 @@
 fileFormatVersion: 2
-guid: ec47f75fe8aff1644ac73998f4ad31b5
-AssetOrigin:
-  serializedVersion: 1
-  productId: 187605
-  packageName: Pixel Art Top Down - Basic
-  packageVersion: 1.1.2
-  assetPath: Assets/Cainos/Pixel Art Top Down - Basic/Texture/TX Player.png
-  uploadId: 700957
+guid: 924d0ac959a94f944887bda1e3a79338
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: TX Player F
+      213: -9125004058473136408
+    second: TX Player0_0
   - first:
-      213: 21300002
-    second: TX Player B
+      213: -5695534584147747335
+    second: TX Player0_1
   - first:
-      213: 21300004
-    second: TX Player S
+      213: -2155959849927022953
+    second: TX Player0_2
   - first:
-      213: 21300006
-    second: TX Shadow Player
+      213: 6957616460592836700
+    second: TX Player0_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -64,10 +57,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -82,15 +75,15 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -103,20 +96,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -129,20 +109,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -155,7 +122,7 @@ TextureImporter:
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -168,93 +135,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TX Player F
+      name: TX Player0_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 70
-        width: 21
-        height: 44
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 1, z: 0, w: 30}
-      customData: 
-      outline:
-      - - {x: 10.5, y: 22}
-        - {x: -10.5, y: 22}
-        - {x: -10.5, y: -22}
-        - {x: 10.5, y: -22}
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a5766e0acb972fc4a822fd0da3d78646
-      internalID: 21300000
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TX Player B
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 70
-        width: 21
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 1, z: 0, w: 30}
+        x: 1
+        y: 67
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: a5b86785e343a0d4cb6789e18659fc2b
-      internalID: 21300002
+      spriteID: 8eef5b8b7297d5180800000000000000
+      internalID: -9125004058473136408
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TX Player S
+      name: TX Player0_1
       rect:
         serializedVersion: 2
-        x: 70
-        y: 70
-        width: 21
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 1, z: 0, w: 31}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a9ca82717e2de784b8635c80e5b0c18f
-      internalID: 21300004
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TX Shadow Player
-      rect:
-        serializedVersion: 2
-        x: 99
-        y: 68
-        width: 27
-        height: 28
+        x: 37
+        y: 69
+        width: 23
+        height: 47
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3a919befe8cac95409cfc0454a956cba
-      internalID: 21300006
+      spriteID: 9fddbe1d87565f0b0800000000000000
+      internalID: -5695534584147747335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Player0_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 69
+        width: 23
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 796681370fd7412e0800000000000000
+      internalID: -2155959849927022953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Player0_3
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 69
+        width: 23
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c50fb01de4b6e8060800000000000000
+      internalID: 6957616460592836700
       vertices: []
       indices: 
       edges: []
@@ -263,7 +226,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 57e538b12da3cef4ea18b351a5a2ff6d
+    spriteID: 68ccce41381c2974b973d26fafb5309c
     internalID: 0
     vertices: []
     indices: 
@@ -273,10 +236,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TX Player B: 21300002
-      TX Player F: 21300000
-      TX Player S: 21300004
-      TX Shadow Player: 21300006
+      TX Player0_0: -9125004058473136408
+      TX Player0_1: -5695534584147747335
+      TX Player0_2: -2155959849927022953
+      TX Player0_3: 6957616460592836700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
