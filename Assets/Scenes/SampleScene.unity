@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7243cfdd31096744897621f472f0261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveStep: 0.2
+  moveStep: 0.5
   moveSpeed: 2
 --- !u!114 &534427897
 MonoBehaviour:
@@ -7328,7 +7328,7 @@ PrefabInstance:
     - target: {fileID: 5628018141983903106, guid: ef67ba864d1ecc042b5f4cf48455c0a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.13
+      value: -18.72
       objectReference: {fileID: 0}
     - target: {fileID: 5628018141983903106, guid: ef67ba864d1ecc042b5f4cf48455c0a6,
         type: 3}
