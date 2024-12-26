@@ -3,8 +3,7 @@ using TMPro;
 
 public class ObjectCollision : MonoBehaviour
 {
-    private int count = 2; 
-
+    private int count = 3; 
     
     public TextMeshProUGUI countText;   
     public TextMeshProUGUI gameOverText; 
