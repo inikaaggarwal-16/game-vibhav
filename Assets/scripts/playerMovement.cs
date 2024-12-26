@@ -152,25 +152,13 @@ public class playerMovement : MonoBehaviour
 //     private int speed = 4;
 //     private Vector2 targetPosition; // Position the player moves to
 //     private bool isMoving = false;  // To track if a move is ongoing
-//     private float cellSize = 0.33f;  // Half a unit per move
-
-//     public float oscillationSpeed = 2f; // Speed of height change
-//     public float heightVariation = 0.1f; // Maximum variation in height
-//     private Vector3 originalScale; // Original scale of the player
+//     private float cellSize = 0.5f;  // Half a unit per move
 
 //     private void Awake()
 //     {
 //         rb = GetComponent<Rigidbody2D>();
 //         targetPosition = rb.position; // Start at the player's initial position
 //         animator = GetComponent<Animator>();
-//         originalScale = transform.localScale; // Save the original scale
-//     }
-
-//     private void Update()
-//     {
-//         // Oscillate the height of the player
-//         float newHeight = originalScale.y + Mathf.Sin(Time.time * oscillationSpeed) * heightVariation;
-//         transform.localScale = new Vector3(originalScale.x, newHeight, originalScale.z);
 //     }
 
 //     private void OnMovement(InputValue value)
@@ -205,7 +193,20 @@ public class playerMovement : MonoBehaviour
 //                 rb.position = targetPosition; // Snap to the exact position
 //                 isMoving = false;            // Mark the movement as complete
 //                 movement = Vector2.zero;     // Reset movement
+
+//                 // Notify TimeLeapOnCollision to record position
+//                 FindObjectOfType<TimeLeapOnCollision>()?.RecordPosition(rb.position);
 //             }
 //         }
+//     }
+
+//     // Reset the movement state
+//     public void ResetMovement()
+//     {
+//         isMoving = false;
+//         movement = Vector2.zero;
+//         targetPosition = rb.position;
+//         animator.SetFloat("X", 0);
+//         animator.SetFloat("Y", 0);
 //     }
 // }
