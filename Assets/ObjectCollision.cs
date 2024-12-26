@@ -36,8 +36,8 @@ public class ObjectCollision : MonoBehaviour
         else if (collision.gameObject.CompareTag("Fake"))
         {
             
-            transform.position = new Vector3(-19.09f, 0.67f, 0); 
-            Debug.Log("Player moved to new position: (-19.09, 0.67, 0)");
+            transform.position = new Vector3(-18.71f, 0.67f, 0); 
+            Debug.Log("Player moved to new position: (-18.60, 0.67, 0)");
 
             
             count -= 2;
