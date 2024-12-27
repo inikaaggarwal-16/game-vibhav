@@ -17,8 +17,8 @@
 //     }
 
 //     private void FixedUpdate(){
-        
-        
+
+
 //         //rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * speed ); 
 //         if(movement.x !=0 || movement.y !=0){
 //         rb.linearVelocity = movement * speed;
@@ -37,7 +37,7 @@
 //     private Vector2 movement;
 //     private Rigidbody2D rb;
 //     public int speed = 2;
-   
+
 //     private Vector2 targetPosition; // Position the player moves to
 //     private bool isMoving = false;  // To track if a move is ongoing
 
@@ -76,7 +76,7 @@
 //             {
 //                 rb.position = targetPosition; // Snap to the exact position
 //                 isMoving = false;            // Mark the movement as complete
-                
+
 //                 movement = Vector2.zero;     // Reset movement
 //             }
 //         }
@@ -195,8 +195,8 @@
 //         if (movement.x != 0 && movement.y != 0)
 //             movement.y = 0;
 
-        
-        
+
+
 //         if (movement != Vector2.zero)
 //         {
 //             targetPosition = rb.position + movement.normalized * cellSize; // Move by half a cell
@@ -238,6 +238,7 @@
 // }
 
 
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -248,6 +249,7 @@ public class playerMovement : MonoBehaviour
     private Animator animator;
     private int speed = 4;
     private Vector2 targetPosition;
+    public Vector2 startingPosition;
     private bool isMoving = false;
     private float cellSize = 0.5f;
 
@@ -255,6 +257,7 @@ public class playerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         targetPosition = rb.position;
+        startingPosition = rb.position;
         animator = GetComponent<Animator>();
     }
 
