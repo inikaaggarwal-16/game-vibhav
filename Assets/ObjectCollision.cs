@@ -101,6 +101,9 @@ public class ObjectCollision : MonoBehaviour
 
         UpdateCountDisplay();
     }
+    private void OnTriggerEnter2D(Collider2D collider){
+        Debug.Log("Trigger!");
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -115,6 +118,9 @@ public class ObjectCollision : MonoBehaviour
 
             UpdateCountDisplay();
         }
+        
+
+        
         // Fake object collision                           //not working so directly write down on rotation script
         else if (collision.gameObject.CompareTag("Fake"))
         {
