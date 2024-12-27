@@ -441,9 +441,9 @@ public class playerMovement : MonoBehaviour
         // Trigger randomization when the player collides with a teleportation object
         if (collision.CompareTag("Fake"))
         {
-          //FindObjectOfType<RandomObjectManager>()?.DistributeObjects("Leap");
-          //  FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Heart");
-        //    FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Solid");
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Leap");
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Heart");
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Solid");
         }
     }
 }

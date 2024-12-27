@@ -7,96 +7,103 @@ public class RandomObjectManager : MonoBehaviour
     public int gridWidth = 8; // Width of the grid in cells
     public int gridHeight = 8; // Height of the grid in cells
     public float cellSize = 0.5f; // Size of each cell
-    public float minDistance = 0.5f; // Minimum distance within a cell for fine adjustments
+    public float minDistance = 1.0f; // Minimum distance between objects of the same tag
 
     private HashSet<Vector2> occupiedCells = new HashSet<Vector2>();
 
     private void Start()
     {
-        DistributeObjects("Leap");
-        DistributeObjects("Heart");
-        DistributeObjects("Solid", offsetY: -0.25f);
+        RandomizeObjects("Leap");
+        RandomizeObjects("Heart");
+        RandomizeSolidObjects();
     }
 
-    private void DistributeObjects(string tag, float offsetY = 0f)
+    public void RandomizeObjects(string tag)
     {
-        // Get all objects with the specified tag
+        // Find all objects with the specified tag
         GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
-
-        // Generate a list of all possible grid positions
-        List<Vector2> availableCells = GenerateGridCells();
-
-        // Shuffle the list to randomize cell assignment
-        Shuffle(availableCells);
 
         foreach (GameObject obj in objects)
         {
-            if (availableCells.Count == 0)
+            Vector2 newPosition;
+            int attempts = 0;
+
+            do
             {
-                Debug.LogWarning($"Not enough cells to distribute all {tag} objects!");
-                break;
-            }
+                // Generate a random position within the grid
+                int randomX = Random.Range(0, gridWidth);
+                int randomY = Random.Range(0, gridHeight);
 
-            // Assign the first available cell
-            Vector2 cell = availableCells[0];
-            availableCells.RemoveAt(0);
-
-            // Fine-tune the position within the cell to ensure a natural look
-            Vector2 fineTunedPosition = FineTunePosition(cell, offsetY);
-
-            // Place the object
-            obj.transform.position = fineTunedPosition;
-
-            // Mark the cell as occupied
-            occupiedCells.Add(cell);
-        }
-    }
-
-    private List<Vector2> GenerateGridCells()
-    {
-        List<Vector2> cells = new List<Vector2>();
-
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int y = 0; y < gridHeight; y++)
-            {
-                Vector2 cellPosition = new Vector2(
-                    gridOrigin.x + x * cellSize,
-                    gridOrigin.y + y * cellSize
+                newPosition = new Vector2(
+                    gridOrigin.x + randomX * cellSize,
+                    gridOrigin.y + randomY * cellSize
                 );
-                if (!occupiedCells.Contains(cellPosition))
-                {
-                    cells.Add(cellPosition);
-                }
+
+                attempts++;
+                if (attempts > 100) break; // Avoid infinite loops
+            }
+            // Ensure the cell isn't already occupied and is not too close to other objects of the same tag
+            while (occupiedCells.Contains(newPosition) || IsTooClose(newPosition));
+
+            // Place the object and mark the cell as occupied
+            obj.transform.position = newPosition;
+            occupiedCells.Add(newPosition);
+        }
+    }
+
+    public void RandomizeSolidObjects()
+    {
+        // Find all objects with the "Solid" tag
+        GameObject[] solidObjects = GameObject.FindGameObjectsWithTag("Solid");
+
+        foreach (GameObject obj in solidObjects)
+        {
+            Vector2 newPosition;
+            int attempts = 0;
+
+            do
+            {
+                // Generate a random position within the grid
+                int randomX = Random.Range(0, gridWidth);
+                int randomY = Random.Range(0, gridHeight);
+
+                newPosition = new Vector2(
+                    gridOrigin.x + randomX * cellSize,
+                    gridOrigin.y + randomY * cellSize
+                );
+
+                attempts++;
+                if (attempts > 100) break; // Avoid infinite loops
+            }
+            // Ensure the cell isn't already occupied and is not too close to other objects of the same tag
+            while (occupiedCells.Contains(newPosition) || IsTooClose(newPosition));
+
+            // Adjust Y position for "Solid" objects
+            newPosition.y -= 0.24f;
+
+            // Place the object and mark the cell as occupied
+            obj.transform.position = newPosition;
+            occupiedCells.Add(new Vector2(newPosition.x, newPosition.y + 0.25f)); // Store original cell position
+        }
+    }
+
+    private bool IsTooClose(Vector2 position)
+    {
+        foreach (Vector2 occupied in occupiedCells)
+        {
+            if (Vector2.Distance(position, occupied) < minDistance)
+            {
+                return true;
             }
         }
-
-        return cells;
+        return false;
     }
 
-    private Vector2 FineTunePosition(Vector2 cell, float offsetY)
-    {
-        float fineX = Random.Range(-minDistance / 2, minDistance / 2);
-        float fineY = Random.Range(-minDistance / 2, minDistance / 2);
-        return new Vector2(cell.x + fineX, cell.y + fineY + offsetY);
-    }
-
-    private void Shuffle<T>(List<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            int randomIndex = Random.Range(i, list.Count);
-            T temp = list[i];
-            list[i] = list[randomIndex];
-            list[randomIndex] = temp;
-        }
-    }
-
-    public void TeleportAndRedistribute()
+    public void TeleportAndRandomize()
     {
         occupiedCells.Clear();
-        DistributeObjects("Leap");
-        DistributeObjects("Heart");
-        DistributeObjects("Solid", offsetY: -0.25f);
+        RandomizeObjects("Leap");
+        RandomizeObjects("Heart");
+        RandomizeSolidObjects();
     }
 }
