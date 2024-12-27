@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 254677855}
   m_Layer: 0
   m_Name: Light 2D (6)
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1494,7 +1494,7 @@ GameObject:
   - component: {fileID: 359707179}
   m_Layer: 0
   m_Name: Light 2D (5)
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2031,7 +2031,7 @@ Transform:
   m_GameObject: {fileID: 508188718}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.2170105, y: -2.1100006, z: 0}
+  m_LocalPosition: {x: -13.17, y: -2.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3984,7 +3984,7 @@ GameObject:
   - component: {fileID: 859161047}
   m_Layer: 0
   m_Name: circleGlowBig (1)
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5417,7 +5417,7 @@ GameObject:
   - component: {fileID: 1150712328}
   m_Layer: 19
   m_Name: orbGlowExtreme (3)
-  m_TagString: Fake
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8000,7 +8000,7 @@ GameObject:
   - component: {fileID: 1615260627}
   m_Layer: 0
   m_Name: TX Props Altar
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8270,7 +8270,7 @@ GameObject:
   - component: {fileID: 1669996006}
   m_Layer: 19
   m_Name: circleGlowBig (2)
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8387,7 +8387,7 @@ GameObject:
   - component: {fileID: 1694763532}
   m_Layer: 0
   m_Name: orbGlowExtreme (1)
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8529,7 +8529,7 @@ Transform:
   m_GameObject: {fileID: 1694763526}
   serializedVersion: 2
   m_LocalRotation: {x: -0.2782368, y: -0, z: -0, w: 0.9605125}
-  m_LocalPosition: {x: -18.72998, y: 1.4299927, z: 0}
+  m_LocalPosition: {x: -18.74, y: 1.4299927, z: 0}
   m_LocalScale: {x: 0.06, y: 0.060000002, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12814,7 +12814,7 @@ Transform:
   m_GameObject: {fileID: 1889999703}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9273071, y: 2.34, z: 0}
+  m_LocalPosition: {x: 0.9273071, y: 2.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
