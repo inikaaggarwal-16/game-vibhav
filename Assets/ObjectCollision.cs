@@ -36,14 +36,18 @@ public class ObjectCollision : MonoBehaviour
         else if (collision.gameObject.CompareTag("Fake"))
         {
             
-            transform.position = new Vector3(-19.09f, 0.67f, 0); 
-            Debug.Log("Player moved to new position: (-19.09, 0.67, 0)");
+            //transform.position = new Vector3(-19.09f, 0.67f, 0); 
+            //Debug.Log("Player moved to new position: (-19.09, 0.67, 0)");
 
             
             count -= 2;
             Debug.Log("Count decreased. Current count: " + count);
+            UpdateCountDisplay();
         }
-
+        else if(collision.gameObject.CompareTag("Leap")){
+            count -= 1;
+            Debug.Log("Count decreased. Current count: " + count);
+        }
         
         UpdateCountDisplay();
 
@@ -59,7 +63,7 @@ public class ObjectCollision : MonoBehaviour
         
         if (countText != null)
         {
-            countText.text = "Count: " + count;  
+            countText.text = " " + count;  
         }
     }
 
