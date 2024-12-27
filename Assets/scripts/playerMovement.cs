@@ -435,4 +435,15 @@ public class playerMovement : MonoBehaviour
         animator.SetFloat("X", 0);
         animator.SetFloat("Y", 0);
     }
+
+     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Trigger randomization when the player collides with a teleportation object
+        if (collision.CompareTag("Fake"))
+        {
+          //FindObjectOfType<RandomObjectManager>()?.DistributeObjects("Leap");
+          //  FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Heart");
+        //    FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Solid");
+        }
+    }
 }
