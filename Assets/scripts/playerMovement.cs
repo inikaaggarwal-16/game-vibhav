@@ -141,6 +141,103 @@
 //     }
 // }
 
+// using UnityEngine;
+// using UnityEngine.InputSystem;
+
+// public class playerMovement : MonoBehaviour
+// {
+//     private Vector2 movement;
+//     private Rigidbody2D rb;
+//     private Animator animator;
+//     private int speed = 4;
+//     private Vector2 targetPosition; // Position the player moves to
+//     private bool isMoving = false;  // To track if a move is ongoing
+//     private float cellSize = 0.5f;  // Half a unit per move
+
+//     public void MoveUp() => Move(Vector2.up);
+//     public void MoveDown() => Move(Vector2.down);
+//     public void MoveLeft() => Move(Vector2.left);
+//     public void MoveRight() => Move(Vector2.right);
+
+//     private void Awake()
+//     {
+//         rb = GetComponent<Rigidbody2D>();
+//         targetPosition = rb.position; // Start at the player's initial position
+//         animator = GetComponent<Animator>();
+//     }
+
+//       public void Move(Vector2 direction)
+//     {
+//         if (isMoving) return;
+
+//         TriggerMovement(direction);
+//     }
+
+//     private void TriggerMovement(Vector2 direction)
+//     {
+//         if (direction != Vector2.zero)
+//         {
+//             targetPosition = rb.position + direction.normalized * cellSize;
+//             isMoving = true;
+//         }
+
+//         animator.SetFloat("X", direction.x);
+//         animator.SetFloat("Y", direction.y);
+//     }
+
+//     private void OnMovement(InputValue value)
+//     {
+//         if (isMoving) return; // Ignore input if already moving
+
+//         movement = value.Get<Vector2>();
+
+//         // Only accept one direction at a time (horizontal or vertical)
+//         if (movement.x != 0 && movement.y != 0)
+//             movement.y = 0;
+
+        
+        
+//         if (movement != Vector2.zero)
+//         {
+//             targetPosition = rb.position + movement.normalized * cellSize; // Move by half a cell
+//             isMoving = true;
+//         }
+//         animator.SetFloat("X", movement.x);
+//         animator.SetFloat("Y", movement.y);
+//     }
+
+//     private void FixedUpdate()
+//     {
+//         if (isMoving)
+//         {
+//             // Move towards the target position
+//             rb.position = Vector2.MoveTowards(rb.position, targetPosition, speed * Time.fixedDeltaTime);
+
+//             // Check if the player reached the target position
+//             if (Vector2.Distance(rb.position, targetPosition) < 0.01f)
+//             {
+//                 rb.position = targetPosition; // Snap to the exact position
+//                 isMoving = false;            // Mark the movement as complete
+//                 movement = Vector2.zero;     // Reset movement
+
+//                 // Notify TimeLeapOnCollision to record position
+//                 FindObjectOfType<TimeLeapOnCollision>()?.RecordPosition(rb.position);
+//             }
+//         }
+//     }
+
+//     // Reset the movement state
+//     public void ResetMovement()
+//     {
+//         isMoving = false;
+//         movement = Vector2.zero;
+//         targetPosition = rb.position;
+//         animator.SetFloat("X", 0);
+//         animator.SetFloat("Y", 0);
+//     }
+// }
+
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -150,32 +247,56 @@ public class playerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private int speed = 4;
-    private Vector2 targetPosition; // Position the player moves to
-    private bool isMoving = false;  // To track if a move is ongoing
-    private float cellSize = 0.5f;  // Half a unit per move
+    private Vector2 targetPosition;
+    private bool isMoving = false;
+    private float cellSize = 0.5f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        targetPosition = rb.position; // Start at the player's initial position
+        targetPosition = rb.position;
         animator = GetComponent<Animator>();
+    }
+
+    public void MoveUp() => Move(Vector2.up);
+    public void MoveDown() => Move(Vector2.down);
+    public void MoveLeft() => Move(Vector2.left);
+    public void MoveRight() => Move(Vector2.right);
+
+    public void Move(Vector2 direction)
+    {
+        if (isMoving) return;
+
+        TriggerMovement(direction);
+    }
+
+    private void TriggerMovement(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
+            targetPosition = rb.position + direction.normalized * cellSize;
+            isMoving = true;
+        }
+
+        animator.SetFloat("X", direction.x);
+        animator.SetFloat("Y", direction.y);
     }
 
     private void OnMovement(InputValue value)
     {
-        if (isMoving) return; // Ignore input if already moving
+        if (isMoving) return;
 
         movement = value.Get<Vector2>();
 
-        // Only accept one direction at a time (horizontal or vertical)
         if (movement.x != 0 && movement.y != 0)
             movement.y = 0;
 
         if (movement != Vector2.zero)
         {
-            targetPosition = rb.position + movement.normalized * cellSize; // Move by half a cell
+            targetPosition = rb.position + movement.normalized * cellSize;
             isMoving = true;
         }
+
         animator.SetFloat("X", movement.x);
         animator.SetFloat("Y", movement.y);
     }
@@ -184,15 +305,13 @@ public class playerMovement : MonoBehaviour
     {
         if (isMoving)
         {
-            // Move towards the target position
             rb.position = Vector2.MoveTowards(rb.position, targetPosition, speed * Time.fixedDeltaTime);
 
-            // Check if the player reached the target position
             if (Vector2.Distance(rb.position, targetPosition) < 0.01f)
             {
-                rb.position = targetPosition; // Snap to the exact position
-                isMoving = false;            // Mark the movement as complete
-                movement = Vector2.zero;     // Reset movement
+                rb.position = targetPosition;
+                isMoving = false;
+                movement = Vector2.zero;
 
                 // Notify TimeLeapOnCollision to record position
                 FindObjectOfType<TimeLeapOnCollision>()?.RecordPosition(rb.position);
@@ -200,7 +319,6 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    // Reset the movement state
     public void ResetMovement()
     {
         isMoving = false;
