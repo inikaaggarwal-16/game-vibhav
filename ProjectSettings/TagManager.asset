@@ -9,6 +9,7 @@ TagManager:
   - Fake
   - Heart
   - Leap
+  - Solid
   layers:
   - Default
   - TransparentFX
