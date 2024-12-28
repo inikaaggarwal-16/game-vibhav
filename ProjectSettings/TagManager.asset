@@ -11,6 +11,12 @@ TagManager:
   - Leap
   - Solid
   - Portal
+  - RightDoorDown
+  - RightDoorUp
+  - WrongDoor
+  - Lamp
+  - Fire
+  - Teleport
   layers:
   - Default
   - TransparentFX
@@ -19,8 +25,8 @@ TagManager:
   - Water
   - UI
   - solid
-  - 
-  - 
+  - groundLayer
+  - wallLayer
   - 
   - 
   - 
