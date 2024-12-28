@@ -192,8 +192,6 @@ public class ProceduralPropGenerator : MonoBehaviour
     }
 }
 
-//for insects
-
 // using System.Collections;
 // using System.Collections.Generic;
 // using UnityEngine;
