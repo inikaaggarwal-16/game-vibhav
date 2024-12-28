@@ -192,6 +192,8 @@ public class ProceduralPropGenerator : MonoBehaviour
     }
 }
 
+//for insects
+
 // using System.Collections;
 // using System.Collections.Generic;
 // using UnityEngine;
@@ -208,7 +210,7 @@ public class ProceduralPropGenerator : MonoBehaviour
 //     private HashSet<Vector2> occupiedCells = new HashSet<Vector2>(); // All occupied cells
 //     private HashSet<Vector2> portalOccupiedCells = new HashSet<Vector2>(); // Cells occupied by Portal (fixed positions)
 
-//     // New variables for Fire, Lamp, and Insect props
+//     // Prefabs for Fire, Lamp, and Insects
 //     public GameObject firePrefab;
 //     public GameObject lampPrefab;
 //     public GameObject insectPrefab; // Insect prefab
@@ -221,8 +223,8 @@ public class ProceduralPropGenerator : MonoBehaviour
 //         // Randomize Fire and Lamp objects in the corners
 //         RandomizeProps();
 
-//         // Spawn insects at the corners
-//         SpawnInsectsAtCorners();
+//         // After Fire and Lamp have been spawned, spawn insects at the corners
+//         StartCoroutine(SpawnInsectsAtCornersAfterProps());
 
 //         // Randomize other objects
 //         RandomizeObjects("WrongDoor");
@@ -257,13 +259,13 @@ public class ProceduralPropGenerator : MonoBehaviour
 //             new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize) // Top-right corner
 //         };
 
-//         // List to hold the props
+//         // List to hold the props (Fire and Lamp)
 //         GameObject[] props = new GameObject[] { firePrefab, lampPrefab, firePrefab, lampPrefab };
 
-//         // Randomize the order of props
+//         // Randomize the order of props (Fire and Lamp can be in any corner)
 //         ShuffleArray(props);
 
-//         // Place 1 Fire and 1 Lamp in the corners
+//         // Place Fire and Lamp at the corners
 //         for (int i = 0; i < 4; i++)
 //         {
 //             Vector2 corner = corners[i];
@@ -291,9 +293,12 @@ public class ProceduralPropGenerator : MonoBehaviour
 //         obj.transform.localScale = new Vector3(0.25f, 0.25f, 1); // Halve the size (0.25 to fit within the 0.5 cell)
 //     }
 
-//     // Spawn insects at the corners with random size
-//     private void SpawnInsectsAtCorners()
+//     // Wait for props to be spawned and then spawn insects at the corners
+//     private IEnumerator SpawnInsectsAtCornersAfterProps()
 //     {
+//         // Wait for the props to be placed first
+//         yield return new WaitForSeconds(1f);
+
 //         // Define the 4 corners
 //         Vector2[] corners = new Vector2[]
 //         {
@@ -303,16 +308,54 @@ public class ProceduralPropGenerator : MonoBehaviour
 //             new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize) // Top-right corner
 //         };
 
-//         // Spawn 3 insects at each corner with slightly different sizes
-//         foreach (var corner in corners)
+//         // Randomly pick a corner and decide if it's Fire or Lamp
+//         int randomCornerIndex = Random.Range(0, 4);
+//         Vector2 chosenCorner = corners[randomCornerIndex];
+//         GameObject cornerObject = GetObjectAtPosition(chosenCorner);
+
+//         if (cornerObject != null && cornerObject.CompareTag("Fire"))
 //         {
-//             for (int i = 0; i < 3; i++)
+//             // If the randomly chosen corner is Fire, spawn insects there
+//             SpawnInsectsAtCorner(chosenCorner);
+//         }
+
+//         // For all remaining 3 corners, spawn insects only if it's Fire (not Lamp)
+//         for (int i = 0; i < 4; i++)
+//         {
+//             if (i == randomCornerIndex) continue; // Skip the randomly chosen corner
+
+//             Vector2 corner = corners[i];
+//             cornerObject = GetObjectAtPosition(corner);
+
+//             if (cornerObject != null && cornerObject.CompareTag("Fire"))
 //             {
-//                 float sizeRandomness = Random.Range(0.8f, 1.2f); // Random size variation
-//                 GameObject insect = Instantiate(insectPrefab, corner, Quaternion.identity);
-//                 insect.transform.localScale = new Vector3(sizeRandomness, sizeRandomness, 1);
-//                 StartCoroutine(MoveInsect(insect, corner));
+//                 // If it's Fire, spawn insects at this corner
+//                 SpawnInsectsAtCorner(corner);
 //             }
+//         }
+//     }
+
+//     // Check what object is at the given position (corner)
+//     private GameObject GetObjectAtPosition(Vector2 position)
+//     {
+//         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, 0.1f); // Small radius to check the position
+//         foreach (Collider2D collider in colliders)
+//         {
+//             return collider.gameObject;
+//         }
+//         return null;
+//     }
+
+//     // Spawn insects at a specific corner
+//     private void SpawnInsectsAtCorner(Vector2 corner)
+//     {
+//         // Spawn 3 insects at this corner with slightly different sizes
+//         for (int i = 0; i < 3; i++)
+//         {
+//             float sizeRandomness = Random.Range(0.8f, 1.2f); // Random size variation
+//             GameObject insect = Instantiate(insectPrefab, corner, Quaternion.identity);
+//             insect.transform.localScale = new Vector3(sizeRandomness, sizeRandomness, 1);
+//             StartCoroutine(MoveInsect(insect, corner));
 //         }
 //     }
 
@@ -405,35 +448,8 @@ public class ProceduralPropGenerator : MonoBehaviour
 //         foreach (GameObject door in doors)
 //         {
 //             Vector3 position = door.transform.position;
-//             position.y -= 0.21f; // Decrease the Y position
+//             position.y -= 0.21f; // Adjust by a small amount (e.g., -0.21f)
 //             door.transform.position = position;
 //         }
 //     }
-
-//     // Check if an object is too close to any other object in the grid
-//     private bool IsTooClose(Vector2 position)
-//     {
-//         foreach (Vector2 occupied in occupiedCells)
-//         {
-//             if (Vector2.Distance(position, occupied) < minDistance)
-//             {
-//                 return true;
-//             }
-//         }
-//         return false;
-//     }
-
-//     // Clears all occupied positions and re-randomizes all objects
-//     public void TeleportAndRandomize()
-//     {
-//         occupiedCells.Clear();
-//         WrongOccupiedCells.Clear();
-//         RightOccupiedCells.Clear();
-//         portalOccupiedCells.Clear(); // Keep portal positions intact, don't clear them
-
-//         RandomizeObjects("WrongDoor");
-//         RandomizeObjects("RightDoorUp");
-//         RandomizeObjects("RightDoorDown");
-//     }
 // }
-
