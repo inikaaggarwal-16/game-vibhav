@@ -8,6 +8,7 @@ public class RandomObjectManager : MonoBehaviour
     public int gridHeight = 8; // Height of the grid in cells
     public float cellSize = 0.5f; // Size of each cell
     public float minDistance = 1.0f; // Minimum distance between objects of the same tag
+    public float boundaryMargin = 1;
 
     private HashSet<Vector2> occupiedCells = new HashSet<Vector2>(); // All occupied cells
     private HashSet<Vector2> heartOccupiedCells = new HashSet<Vector2>(); // Cells occupied by Heart
@@ -101,8 +102,8 @@ public class RandomObjectManager : MonoBehaviour
 
             do
             {
-                int randomX = Random.Range(0, gridWidth);
-                int randomY = Random.Range(0, gridHeight);
+                int randomX = (int)Random.Range(boundaryMargin , gridWidth-boundaryMargin);
+                int randomY = (int)Random.Range(boundaryMargin, gridHeight-boundaryMargin);
 
                 newPosition = new Vector2(
                     gridOrigin.x + randomX * cellSize,
@@ -156,4 +157,48 @@ public class RandomObjectManager : MonoBehaviour
         RandomizeSolidObjects();
     }
 }
+// using System.Collections.Generic;
+// using System.Numerics;
+// using UnityEngine;
+// using UnityEngine.Events;
+// using UnityEngine.InputSystem;
+// using UnityEngine.Tilemaps;
 
+// public class SimpleDungonGeneration : MonoBehaviour
+// {
+//     [SerializeField]
+//     private Vector2Int roomsize = new Vector2Int(10,10);
+//     [SerializeField]
+//     private Tilemap roomMap, colliderMap;
+//     [SerializeField]
+//     private TileBase roomFloorTile, pathFloorTile;
+//     [SerializeField]
+//     private InputActionReference generate;
+//     public UnityEvent OnFinishedRoomGeneration;
+//     public static List<Vector2Int>fourDirection = new(){
+//         Vector2Int.up,
+//         Vector2Int.down,
+//         Vector2Int.left,
+//         Vector2Int.right
+//     };
+
+//     private DungeonData dungeonData;
+    
+//     private void Awake(){
+//         dungeonData = FindObjectOfType<DungeonData>();
+//         if(dungeonData == null)
+//            dungeonData = gameObject.AddComponent<DungeonData>();
+        
+//         generation.action.performed += generate;
+//     }
+    
+//     private void Generate(InputAction.CallbackContext obj){
+//         dungeonData.Reset();
+
+//         dungeonData Rooms Add(
+//             GenerateRectangulatRoomAt(Vector2.Zero, roomSize)
+//         );
+        
+        
+//     }
+//     }
