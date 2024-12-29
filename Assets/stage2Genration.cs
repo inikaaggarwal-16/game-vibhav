@@ -54,9 +54,9 @@ public class ProceduralPropGenerator : MonoBehaviour
         // Define the 4 corners
         Vector2[] corners = new Vector2[]
         {
-            new Vector2(gridOrigin.x, gridOrigin.y), // Bottom-left corner
-            new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y), // Bottom-right corner
-            new Vector2(gridOrigin.x, gridOrigin.y + (gridHeight - 1) * cellSize), // Top-left corner
+            new Vector2(gridOrigin.x, gridOrigin.y),                                                           // Bottom-left corner
+            new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y),                              // Bottom-right corner
+            new Vector2(gridOrigin.x, gridOrigin.y + (gridHeight - 1) * cellSize),                             // Top-left corner
             new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize) // Top-right corner
         };
 
@@ -160,7 +160,7 @@ public class ProceduralPropGenerator : MonoBehaviour
         foreach (GameObject door in doors)
         {
             Vector3 position = door.transform.position;
-            position.y -= 0.21f; // Decrease the Y position
+            position.y -= 0.26f; // Decrease the Y position
             door.transform.position = position;
         }
     }

@@ -74,6 +74,10 @@ public class ContinuousRotation : MonoBehaviour
 
                     objectCollision.UpdateCountDisplay();
                     objectCollision.CheckGameOver();
+                    collision.transform.position = playerMovement.startingPosition;
+                    playerMovement.ResetMovement();
+
+//                 Debug.Log("Player teleported to starting position.");
                 }
 
                 // Prevent teleportation spam
