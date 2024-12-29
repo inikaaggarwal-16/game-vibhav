@@ -196,7 +196,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class ProceduralPropGenerator : MonoBehaviour
 {
     public Vector2 gridOrigin = new Vector2(-6.25f, -2.75f); // Bottom-left corner of the grid
@@ -406,7 +406,8 @@ public class ProceduralPropGenerator : MonoBehaviour
             array[randomIndex] = temp;
         }
     }
-
+// In your GameManager or a relevant class
+    public static string selectedCornerKey;
     // Generate insect props near corners
     // Generate insect props near corners based on conditions
 // Generate insect props near corners based on conditions
@@ -456,24 +457,36 @@ private void GenerateInsectPropsNearCorners()
         }
     };
 
-    // First process one random corner with a Lamp
-    foreach (var corner in cornerPositions)
-    {
-        if (IsObjectAtPosition(corner.Value[0], objectPositions["Lamp"]))
-        {
-            InstantiateInsectsAtPositions(corner.Value);
-            break; // Process only one corner with a Lamp
-        }
-    }
+    
 
-    // Process other corners with a Fire
-    foreach (var corner in cornerPositions)
+
+    // Randomly select one corner from the dictionary
+var randomCornerKey = cornerPositions.Keys.ElementAt(Random.Range(0, cornerPositions.Count));
+var randomCornerPositions = cornerPositions[randomCornerKey];
+
+// Store the randomly chosen key for use in the pickup script
+   selectedCornerKey = randomCornerKey; // or use your manager class name
+
+// Check if the first position in the randomly selected corner contains a Lamp
+if (IsObjectAtPosition(randomCornerPositions[0], objectPositions["Lamp"]))
+{
+    InstantiateInsectsAtPositions(randomCornerPositions);
+}
+
+// After checking the randomly selected corner, check the remaining three corners for Fire
+foreach (var corner in cornerPositions)
+{
+    // Skip the randomly selected corner
+    if (corner.Key == randomCornerKey) continue;
+
+    // Check if the first position in the corner contains Fire
+    if (IsObjectAtPosition(corner.Value[0], objectPositions["Fire"]))
     {
-        if (IsObjectAtPosition(corner.Value[0], objectPositions["Fire"]))
-        {
-            InstantiateInsectsAtPositions(corner.Value);
-        }
+        // Instantiate 
+        InstantiateInsectsAtPositions(corner.Value);
     }
+}
+
 }
 
 // Get positions of all objects with the specified tag
