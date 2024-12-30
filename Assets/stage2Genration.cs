@@ -193,7 +193,7 @@
 // }
 
 
-
+/*
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -539,4 +539,288 @@ private void InstantiateInsectsAtPositions(List<Vector2> positions)
 
 
 
+}*/
+
+
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+
+public class ProceduralPropGenerator : MonoBehaviour
+{
+    public Vector2 gridOrigin = new Vector2(-6.25f, -2.75f); // Bottom-left corner of the grid
+    public int gridWidth = 8; // Width of the grid in cells
+    public int gridHeight = 8; // Height of the grid in cells
+    public float cellSize = 0.5f; // Size of each cell
+    public float minDistance = 1.0f; // Minimum distance between objects of the same tag
+    public float boundaryMargin = 1; // Margin near the boundary where objects should not spawn
+    public GameObject insectPrefab; // Reference to the insect prefab
+
+    private HashSet<Vector2> occupiedCells = new HashSet<Vector2>(); // All occupied cells
+    private HashSet<Vector2> WrongOccupiedCells = new HashSet<Vector2>(); // Cells occupied by wrong door
+    private HashSet<Vector2> RightOccupiedCells = new HashSet<Vector2>(); // Cells occupied by right door
+    private HashSet<Vector2> portalOccupiedCells = new HashSet<Vector2>(); // Cells occupied by Portal (fixed positions)
+
+    // In-game corner selection
+    public static string selectedCornerKey;
+
+    private void Start()
+    {
+        // Store the positions of all Portal objects (fixed positions)
+        StorePortalPositions();
+
+        // Randomize Fire and Lamp objects in the corners
+        RandomizeCornerProps();
+
+        // Randomize other objects
+        RandomizeObjects("WrongDoor");
+        RandomizeObjects("RightDoorUp");
+        RandomizeObjects("RightDoorDown");
+
+        // After the game starts, adjust Y position for the doors
+        AdjustDoorPositions();
+
+        // Generate insect props near corners
+        GenerateInsectPropsNearCorners();
+    }
+
+    // Store the positions of Portal objects (fixed positions)
+    private void StorePortalPositions()
+    {
+        GameObject[] portalObjects = GameObject.FindGameObjectsWithTag("Portal");
+        foreach (GameObject portal in portalObjects)
+        {
+            Vector2 portalPosition = portal.transform.position;
+            portalOccupiedCells.Add(portalPosition); // Mark portal positions as occupied
+            occupiedCells.Add(portalPosition); // Also mark in the general occupied cells
+        }
+    }
+
+    // Randomizes Fire and Lamp objects in the corners
+    private void RandomizeCornerProps()
+    {
+        // Define the four corner positions
+        Dictionary<string, Vector2> corners = new Dictionary<string, Vector2>
+        {
+            { "TopLeft", new Vector2(gridOrigin.x, gridOrigin.y + (gridHeight - 1) * cellSize) },
+            { "TopRight", new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize) },
+            { "BottomLeft", new Vector2(gridOrigin.x, gridOrigin.y) },
+            { "BottomRight", new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y) }
+        };
+
+        // Randomly select one corner as the correct corner
+        string correctCornerKey = corners.Keys.ElementAt(Random.Range(0, corners.Count));
+        Vector2 correctCornerPosition = corners[correctCornerKey];
+
+        // Store the correct corner key for other scripts
+        selectedCornerKey = correctCornerKey;
+
+        // Randomly decide if the correct corner will have a Lamp or Fire
+        bool hasLamp = Random.value > 0.5f; // 50% chance
+
+        if (hasLamp)
+        {
+            PlaceObjectAtPosition("Lamp", correctCornerPosition);
+            SpawnInsectsAtPosition(correctCornerPosition);
+        }
+        else
+        {
+            PlaceObjectAtPosition("Fire", correctCornerPosition);
+        }
+
+        // Handle the remaining corners
+        foreach (var corner in corners)
+        {
+            if (corner.Key == correctCornerKey) continue; // Skip the correct corner
+
+            // Optionally, place unrelated objects in the other corners or leave them empty
+            PlaceUnrelatedObjectAtPosition(corner.Value);
+        }
+    }
+
+    // Randomizes objects based on the tag, ensuring no overlap between different object types and Portal positions
+    public void RandomizeObjects(string tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+
+        foreach (GameObject obj in objects)
+        {
+            Vector2 newPosition;
+            int attempts = 0;
+
+            do
+            {
+                // Generate a random position within the grid, ensuring we stay within boundaries
+                int randomX = (int)Random.Range(boundaryMargin, gridWidth - boundaryMargin);
+                int randomY = (int)Random.Range(boundaryMargin, gridHeight - boundaryMargin);
+
+                newPosition = new Vector2(
+                    gridOrigin.x + (float)randomX * cellSize,
+                    gridOrigin.y + (float)randomY * cellSize
+                );
+
+                attempts++;
+                if (attempts > 100) break; // Avoid infinite loops
+            }
+            while (occupiedCells.Contains(newPosition) || IsTooClose(newPosition) ||
+                   portalOccupiedCells.Contains(newPosition) ||
+                   (tag == "WrongDoor" && WrongOccupiedCells.Contains(newPosition)) ||
+                   ((tag == "RightDoorUp" || tag == "RightDoorDown") && RightOccupiedCells.Contains(newPosition))
+                   );
+
+            // Place the object and mark the cell as occupied
+            obj.transform.position = newPosition;
+            occupiedCells.Add(newPosition);
+
+            // Track the position as occupied by the specific tag
+            if (tag == "WrongDoor")
+            {
+                WrongOccupiedCells.Add(newPosition);
+            }
+            else if (tag == "RightDoorUp" || tag == "RightDoorDown")
+            {
+                RightOccupiedCells.Add(newPosition);
+            }
+        }
+    }
+
+    // Adjust Y position for the doors after the game starts
+    private void AdjustDoorPositions()
+    {
+        GameObject[] wrongDoors = GameObject.FindGameObjectsWithTag("WrongDoor");
+        GameObject[] rightDoorsUp = GameObject.FindGameObjectsWithTag("RightDoorUp");
+        GameObject[] rightDoorsDown = GameObject.FindGameObjectsWithTag("RightDoorDown");
+
+        AdjustYPositionForDoors(wrongDoors);
+        AdjustYPositionForDoors(rightDoorsUp);
+        AdjustYPositionForDoors(rightDoorsDown);
+    }
+
+    // Helper method to adjust the Y position of the doors
+    private void AdjustYPositionForDoors(GameObject[] doors)
+    {
+        foreach (GameObject door in doors)
+        {
+            Vector3 position = door.transform.position;
+            position.y -= 0.26f; // Decrease the Y position
+            door.transform.position = position;
+        }
+    }
+
+    // Check if an object is too close to any other object in the grid
+    private bool IsTooClose(Vector2 position)
+    {
+        foreach (Vector2 occupied in occupiedCells)
+        {
+            if (Vector2.Distance(position, occupied) < minDistance)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper method to shuffle a list
+    private void ShuffleList<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randomIndex = Random.Range(i, list.Count);
+            T temp = list[i];
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+    }
+
+    // Helper method to shuffle an array
+    private void ShuffleArray<T>(T[] array)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            int randomIndex = Random.Range(i, array.Length);
+            T temp = array[i];
+            array[i] = array[randomIndex];
+            array[randomIndex] = temp;
+        }
+    }
+
+    // Generate insect props near corners based on conditions
+    private void GenerateInsectPropsNearCorners()
+    {
+        // Retrieve all objects with tags "Lamp" and "Fire" and store their positions
+        Dictionary<string, List<Vector2>> objectPositions = new Dictionary<string, List<Vector2>>
+        {
+            { "Lamp", GetTaggedObjectPositions("Lamp") },
+            { "Fire", GetTaggedObjectPositions("Fire") }
+        };
+
+        // Define corner positions and their neighbors
+        Dictionary<string, List<Vector2>> cornerPositions = new Dictionary<string, List<Vector2>>
+        {
+            { "TopLeft", new List<Vector2> { new Vector2(gridOrigin.x, gridOrigin.y), new Vector2(gridOrigin.x + cellSize, gridOrigin.y), new Vector2(gridOrigin.x, gridOrigin.y + cellSize), new Vector2(gridOrigin.x + cellSize, gridOrigin.y + cellSize) }},
+            { "TopRight", new List<Vector2> { new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y), new Vector2(gridOrigin.x + (gridWidth - 2) * cellSize, gridOrigin.y), new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + cellSize), new Vector2(gridOrigin.x + (gridWidth - 2) * cellSize, gridOrigin.y + cellSize) }},
+            { "BottomLeft", new List<Vector2> { new Vector2(gridOrigin.x, gridOrigin.y + (gridHeight - 1) * cellSize), new Vector2(gridOrigin.x + cellSize, gridOrigin.y + (gridHeight - 1) * cellSize), new Vector2(gridOrigin.x, gridOrigin.y + (gridHeight - 2) * cellSize), new Vector2(gridOrigin.x + cellSize, gridOrigin.y + (gridHeight - 2) * cellSize) }},
+            { "BottomRight", new List<Vector2> { new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize), new Vector2(gridOrigin.x + (gridWidth - 2) * cellSize, gridOrigin.y + (gridHeight - 1) * cellSize), new Vector2(gridOrigin.x + (gridWidth - 1) * cellSize, gridOrigin.y + (gridHeight - 2) * cellSize), new Vector2(gridOrigin.x + (gridWidth - 2) * cellSize, gridOrigin.y + (gridHeight - 2) * cellSize) }}
+        };
+
+        // Iterate through each corner, and generate insect props based on nearby objects
+        foreach (var corner in cornerPositions)
+        {
+            foreach (var position in corner.Value)
+            {
+                // Generate insects for nearby Lamp
+                if (objectPositions["Lamp"].Contains(position))
+                {
+                    SpawnInsectsAtPosition(position);
+                }
+            }
+        }
+    }
+
+    // Helper method to retrieve tagged object positions
+    private List<Vector2> GetTaggedObjectPositions(string tag)
+    {
+        GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(tag);
+        List<Vector2> positions = new List<Vector2>();
+
+        foreach (GameObject obj in taggedObjects)
+        {
+            positions.Add(obj.transform.position);
+        }
+
+        return positions;
+    }
+
+    // Helper to place an object at a specific position
+    private void PlaceObjectAtPosition(string tag, Vector2 position)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+        if (objects.Length > 0)
+        {
+            GameObject obj = objects[0]; // Use the first available object
+            obj.transform.position = position;
+            occupiedCells.Add(position);
+        }
+        else
+        {
+            Debug.LogError($"No objects with tag '{tag}' found to place at position {position}.");
+        }
+    }
+
+    // Helper to spawn insects at a specific position
+    private void SpawnInsectsAtPosition(Vector2 position)
+    {
+        for (int i = 0; i < 3; i++) // Spawn 3 insects
+        {
+            GameObject insect = Instantiate(insectPrefab, position, Quaternion.identity);
+            Debug.Log($"Insect spawned at {position}");
+        }
+    }
+
+    // Helper to place unrelated objects in other corners (optional)
+    private void PlaceUnrelatedObjectAtPosition(Vector2 position)
+    {
+        // Logic to place unrelated objects or leave the position empty
+        Debug.Log($"Leaving unrelated object or empty at {position}");
+    }
 }

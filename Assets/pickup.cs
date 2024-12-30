@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerPickup : MonoBehaviour
@@ -102,4 +102,86 @@ public class PlayerPickup : MonoBehaviour
             actionButton.GetComponentInChildren<Text>().text = "Pickup"; // Reset button text
         }
     }
+}*/
+
+using System.Collections.Generic;
+
+public class PlayerPickup : MonoBehaviour
+{
+    public Transform carryPosition;
+    public Button actionButton;
+    private GameObject carriedObject = null;
+
+    private HashSet<string> pickedUpTags = new HashSet<string>();
+    private ProceduralPropGenerator propGenerator;
+
+    void Start()
+    {
+        // Initialize button and reference the ProceduralPropGenerator
+        if (actionButton != null)
+        {
+            actionButton.onClick.AddListener(OnActionButtonClick);
+            actionButton.gameObject.SetActive(false);
+        }
+
+        propGenerator = FindObjectOfType<ProceduralPropGenerator>();
+    }
+
+    private void OnActionButtonClick()
+    {
+        if (carriedObject == null)
+        {
+            TryPickupObject();
+        }
+        else
+        {
+            DropObject();
+        }
+
+        // Check if the correct combination is picked up
+        ValidateCombination();
+    }
+
+    private void PickupObject(GameObject obj)
+    {
+        carriedObject = obj;
+
+        // Track the object's tag
+        pickedUpTags.Add(obj.tag);
+
+        // ... existing pickup logic
+    }
+
+    private void DropObject()
+    {
+        if (carriedObject != null)
+        {
+            // Remove the object's tag from the set
+            pickedUpTags.Remove(carriedObject.tag);
+
+            // ... existing drop logic
+        }
+    }
+
+    private void ValidateCombination()
+    {
+        if (propGenerator != null && propGenerator.correctCombination.SetEquals(pickedUpTags))
+        {
+            ChangeDoorColors(Color.white); // Correct combination: set doors to visible
+        }
+        else
+        {
+            ChangeDoorColors(Color.black); // Incorrect combination: set doors to black
+        }
+    }
+
+    private void ChangeDoorColors(Color color)
+    {
+        DoorColorManager[] doors = FindObjectsOfType<DoorColorManager>();
+        foreach (var door in doors)
+        {
+            door.SetDoorColor(color);
+        }
+    }
 }
+
