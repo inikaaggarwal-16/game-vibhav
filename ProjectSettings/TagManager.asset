@@ -57,6 +57,9 @@ TagManager:
   - name: SpecialLight
     uniqueID: 3847816427
     locked: 0
+  - name: doorsinfront
+    uniqueID: 999651519
+    locked: 0
   - name: Layer 1
     uniqueID: 2425651459
     locked: 0
