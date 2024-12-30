@@ -66,5 +66,11 @@ TagManager:
   - name: Layer 3
     uniqueID: 4189426099
     locked: 0
+  - name: corners
+    uniqueID: 3210403851
+    locked: 0
+  - name: doors
+    uniqueID: 4098724129
+    locked: 0
   m_RenderingLayers:
   - Default
