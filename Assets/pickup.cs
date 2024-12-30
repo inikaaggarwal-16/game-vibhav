@@ -1,4 +1,4 @@
-/*using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerPickup : MonoBehaviour
@@ -6,6 +6,18 @@ public class PlayerPickup : MonoBehaviour
     public Transform carryPosition; // The position where the picked-up object will be held
     public Button actionButton; // Reference to the action button
     private GameObject carriedObject = null;
+    private Vector3 playerPickupPosition; // Store the position when an object is picked up
+    public static string pickupCorner; // Store the corner the player is closest to
+
+    // Define grid parameters
+    private float gridSize = 0.5f;
+    private float gridWidth = 8;
+    private float gridHeight = 8;
+
+    private Vector2 bottomLeftCorner = new Vector2(-6.25f, -2.75f);
+    private Vector2 topLeftCorner;
+    private Vector2 topRightCorner;
+    private Vector2 bottomRightCorner;
 
     void Start()
     {
@@ -15,6 +27,11 @@ public class PlayerPickup : MonoBehaviour
             actionButton.onClick.AddListener(OnActionButtonClick);
             actionButton.gameObject.SetActive(false); // Hide button by default
         }
+
+        // Calculate the corner positions based on grid size
+        topLeftCorner = new Vector2(bottomLeftCorner.x, bottomLeftCorner.y + gridHeight * gridSize);
+        topRightCorner = new Vector2(bottomLeftCorner.x + gridWidth * gridSize, topLeftCorner.y);
+        bottomRightCorner = new Vector2(topRightCorner.x, bottomLeftCorner.y);
     }
 
     void Update()
@@ -41,15 +58,16 @@ public class PlayerPickup : MonoBehaviour
         actionButton.gameObject.SetActive(false); // Hide button if no objects nearby
     }
 
-    private void OnActionButtonClick()
+    public void OnActionButtonClick()
     {
+        Debug.Log("Action Button Clicked");
         if (carriedObject == null)
         {
             TryPickupObject();
         }
         else
         {
-            DropObject();
+            // Drop object logic is removed because we only allow one object to be carried
         }
     }
 
@@ -61,6 +79,12 @@ public class PlayerPickup : MonoBehaviour
         {
             if (collider.CompareTag("Fire") || collider.CompareTag("Lamp"))
             {
+                if (carriedObject != null)
+                {
+                    // If the player is already carrying an object, drop it before picking up the new one
+                    DropObject();
+                }
+
                 PickupObject(collider.gameObject);
                 actionButton.GetComponentInChildren<Text>().text = "Drop"; // Change button text
                 break;
@@ -71,6 +95,12 @@ public class PlayerPickup : MonoBehaviour
     private void PickupObject(GameObject obj)
     {
         carriedObject = obj;
+        playerPickupPosition = transform.position;
+        Debug.Log("Player's position when picking up object: " + playerPickupPosition);
+
+        // Determine the closest corner to the player's position
+        pickupCorner = GetClosestCorner(playerPickupPosition);
+        Debug.Log("Player picked up object near: " + pickupCorner);
 
         // Disable physics (optional)
         Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
@@ -79,9 +109,6 @@ public class PlayerPickup : MonoBehaviour
         // Set the object's position and parent
         obj.transform.position = carryPosition.position;
         obj.transform.SetParent(carryPosition);
-
-        // Additional customization: Change the layer to avoid collisions
-        obj.layer = LayerMask.NameToLayer("CarriedObject");
     }
 
     private void DropObject()
@@ -94,94 +121,28 @@ public class PlayerPickup : MonoBehaviour
 
             // Remove the parent and drop at the current position
             carriedObject.transform.SetParent(null);
-
-            // Reset the object's layer
-            carriedObject.layer = LayerMask.NameToLayer("Default");
-
             carriedObject = null;
             actionButton.GetComponentInChildren<Text>().text = "Pickup"; // Reset button text
         }
     }
-}*/
 
-using System.Collections.Generic;
-
-public class PlayerPickup : MonoBehaviour
-{
-    public Transform carryPosition;
-    public Button actionButton;
-    private GameObject carriedObject = null;
-
-    private HashSet<string> pickedUpTags = new HashSet<string>();
-    private ProceduralPropGenerator propGenerator;
-
-    void Start()
+    // Determine which corner the player's position is closest to
+    private string GetClosestCorner(Vector3 position)
     {
-        // Initialize button and reference the ProceduralPropGenerator
-        if (actionButton != null)
-        {
-            actionButton.onClick.AddListener(OnActionButtonClick);
-            actionButton.gameObject.SetActive(false);
-        }
+        // Find the distance from the player's position to each corner
+        float distanceToTopLeft = Vector2.Distance(position, topLeftCorner);
+        float distanceToTopRight = Vector2.Distance(position, topRightCorner);
+        float distanceToBottomLeft = Vector2.Distance(position, bottomLeftCorner);
+        float distanceToBottomRight = Vector2.Distance(position, bottomRightCorner);
 
-        propGenerator = FindObjectOfType<ProceduralPropGenerator>();
-    }
+        // Find the minimum distance and return the corresponding corner
+        float minDistance = Mathf.Min(distanceToTopLeft, distanceToTopRight, distanceToBottomLeft, distanceToBottomRight);
 
-    private void OnActionButtonClick()
-    {
-        if (carriedObject == null)
-        {
-            TryPickupObject();
-        }
-        else
-        {
-            DropObject();
-        }
+        if (minDistance == distanceToTopLeft) return "TopLeft";
+        if (minDistance == distanceToTopRight) return "TopRight";
+        if (minDistance == distanceToBottomLeft) return "BottomLeft";
+        if (minDistance == distanceToBottomRight) return "BottomRight";
 
-        // Check if the correct combination is picked up
-        ValidateCombination();
-    }
-
-    private void PickupObject(GameObject obj)
-    {
-        carriedObject = obj;
-
-        // Track the object's tag
-        pickedUpTags.Add(obj.tag);
-
-        // ... existing pickup logic
-    }
-
-    private void DropObject()
-    {
-        if (carriedObject != null)
-        {
-            // Remove the object's tag from the set
-            pickedUpTags.Remove(carriedObject.tag);
-
-            // ... existing drop logic
-        }
-    }
-
-    private void ValidateCombination()
-    {
-        if (propGenerator != null && propGenerator.correctCombination.SetEquals(pickedUpTags))
-        {
-            ChangeDoorColors(Color.white); // Correct combination: set doors to visible
-        }
-        else
-        {
-            ChangeDoorColors(Color.black); // Incorrect combination: set doors to black
-        }
-    }
-
-    private void ChangeDoorColors(Color color)
-    {
-        DoorColorManager[] doors = FindObjectsOfType<DoorColorManager>();
-        foreach (var door in doors)
-        {
-            door.SetDoorColor(color);
-        }
+        return "Unknown";
     }
 }
-
