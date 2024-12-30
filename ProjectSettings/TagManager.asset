@@ -27,8 +27,8 @@ TagManager:
   - solid
   - groundLayer
   - wallLayer
-  - 
-  - 
+  - CornerObject
+  - CarriedObject
   - 
   - 
   - 
