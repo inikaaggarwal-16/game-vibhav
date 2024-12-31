@@ -91,6 +91,7 @@ public class ObjectCollision : MonoBehaviour
     public int count = 3; // Made public for debugging
     public TextMeshProUGUI countText;
     public TextMeshProUGUI gameOverText;
+    public GameObject player;
 
     private void Start()
     {
@@ -126,6 +127,8 @@ public class ObjectCollision : MonoBehaviour
         {
             count -= 2;
             Debug.Log("Fake object hit! Count decreased. Current count: " + count);
+            Debug.Log("fake portal position, oc: "+ collision.gameObject.transform.position);
+            Debug.Log("player position, oc: "+ player.transform.position);
 
             UpdateCountDisplay();
             CheckGameOver();

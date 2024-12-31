@@ -45,7 +45,7 @@ public class PlayerPickup : MonoBehaviour
     private void CheckForNearbyObjects()
     {
         // Detect nearby objects with tags "Fire" or "Lamp"
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.75f);
         foreach (var collider in colliders)
         {
             if (collider.CompareTag("Fire") || collider.CompareTag("Lamp"))
@@ -74,17 +74,12 @@ public class PlayerPickup : MonoBehaviour
     private void TryPickupObject()
     {
         // Detect nearby objects with tags "Fire" or "Lamp"
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.0f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.75f);
         foreach (var collider in colliders)
         {
             if (collider.CompareTag("Fire") || collider.CompareTag("Lamp"))
             {
-                if (carriedObject != null)
-                {
-                    // If the player is already carrying an object, drop it before picking up the new one
-                    DropObject();
-                }
-
+                
                 PickupObject(collider.gameObject);
                 actionButton.GetComponentInChildren<Text>().text = "Drop"; // Change button text
                 break;
@@ -111,21 +106,7 @@ public class PlayerPickup : MonoBehaviour
         obj.transform.SetParent(carryPosition);
     }
 
-    private void DropObject()
-    {
-        if (carriedObject != null)
-        {
-            // Enable physics (optional)
-            Rigidbody2D rb = carriedObject.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.isKinematic = false;
-
-            // Remove the parent and drop at the current position
-            carriedObject.transform.SetParent(null);
-            carriedObject = null;
-            actionButton.GetComponentInChildren<Text>().text = "Pickup"; // Reset button text
-        }
-    }
-
+    
     // Determine which corner the player's position is closest to
     private string GetClosestCorner(Vector3 position)
     {
