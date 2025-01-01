@@ -9569,7 +9569,7 @@ MonoBehaviour:
   insectPrefab: {fileID: 8193410510875309158, guid: c6d86ec8825b7674a9736d1cb0cd98a2,
     type: 3}
   stage3door: {fileID: 1770499546}
-  activationRange: 0.5
+  activationRange: 0.24
   openRightButton: {fileID: 886898297}
 --- !u!114 &1051652133
 MonoBehaviour:
