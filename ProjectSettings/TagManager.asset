@@ -17,6 +17,8 @@ TagManager:
   - Lamp
   - Fire
   - Teleport
+  - 0
+  - 1
   layers:
   - Default
   - TransparentFX
