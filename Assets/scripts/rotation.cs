@@ -46,10 +46,12 @@
 //stage 2
 using UnityEngine;
 
+
 public class ContinuousRotation : MonoBehaviour
 {
     public float rotationSpeed = 50f;
     private bool isTeleporting = false;  // Flag to prevent immediate teleportation
+    public GameObject player;
 
     private void Update()
     {
@@ -77,6 +79,8 @@ public class ContinuousRotation : MonoBehaviour
                 {
                     objectCollision.count -= 2;
                     Debug.Log("Count decreased due to Fake object. Current count: " + objectCollision.count);
+                    Debug.Log("fake portal position: "+ collision.gameObject.transform.position);
+                    Debug.Log("player position: "+ player.transform.position);
 
                     objectCollision.UpdateCountDisplay();
                     objectCollision.CheckGameOver();
