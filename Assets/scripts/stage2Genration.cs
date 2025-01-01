@@ -66,12 +66,15 @@ public class ProceduralPropGenerator : MonoBehaviour
     {
         // Find the player by its "Player" tag.
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        GameObject rightdoor = GameObject.FindGameObjectWithTag("RightDoorDown");
+        GameObject rightupdoor = GameObject.FindGameObjectWithTag("RightDoorUp");
+        GameObject rightdowndoor = GameObject.FindGameObjectWithTag("RightDoorDown");
 
         if (player != null)
         {
             // Check if the player is within range of this object.
-            return Vector2.Distance(player.transform.position, rightdoor.transform.position) <= activationRange;
+            return (Vector2.Distance(player.transform.position, rightupdoor.transform.position) <= activationRange ||
+             (Vector2.Distance(player.transform.position, rightdowndoor.transform.position) >= activationRange + 0.1f &&
+              Vector2.Distance(player.transform.position, rightdowndoor.transform.position) <= activationRange + 0.25f));
         }
         else
         {
