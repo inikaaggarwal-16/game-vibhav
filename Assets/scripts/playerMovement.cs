@@ -45,7 +45,6 @@ public class playerMovement : MonoBehaviour
         animator.SetFloat("X", direction.x);
         animator.SetFloat("Y", direction.y);
     }
-
     private void OnMovement(InputValue value)
     {
         if (isMoving) return;
@@ -67,10 +66,20 @@ public class playerMovement : MonoBehaviour
 
     private bool IsValidMove(Vector2 direction)
     {
-        RaycastHit2D hit = Physics2D.Raycast(rb.position, direction.normalized, cellSize, solidLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(rb.position, direction.normalized, cellSize +0.1f, solidLayerMask);
         return hit.collider == null;  // If no collision, valid move
     }
-
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Trigger randomization when the player collides with a teleportation object
+        if (collision.CompareTag("Fake"))
+        {
+            
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Leap");
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Heart");
+            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Solid");
+        }
+    }
     private void FixedUpdate()
     {
         if (isMoving)
@@ -98,14 +107,5 @@ public class playerMovement : MonoBehaviour
         animator.SetFloat("Y", 0);
     }
 
-     public void OnTriggerEnter2D(Collider2D collision)
-    {
-        // Trigger randomization when the player collides with a teleportation object
-        if (collision.CompareTag("Fake"))
-        {
-            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Leap");
-            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Heart");
-            FindObjectOfType<RandomObjectManager>()?.RandomizeObjects("Solid");
-        }
-    }
+     
 }
