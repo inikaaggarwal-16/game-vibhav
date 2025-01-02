@@ -18,6 +18,8 @@ public class RandomTextActivator : MonoBehaviour
 
     // Variable to store the count of related activated texts.
     public int passdigit2 = 0;
+    public int finaldigit;
+    public static List<int> binaryList = new List<int>();
 
     void Start()
     {
@@ -189,6 +191,25 @@ public class RandomTextActivator : MonoBehaviour
         // Update the count of related activated texts in passdigit2.
         passdigit2 = CountRelatedActivatedTexts();
         Debug.Log("Updated passdigit2: " + passdigit2);
+        finaldigit = passdigit2 * 10 + 3 ;
+        Debug.Log("final digit "+ finaldigit);
+        ConvertToBinaryList(finaldigit);
+    }
+
+    public void ConvertToBinaryList(int number)
+    {
+        binaryList.Clear(); // Clear any existing data
+
+        while (number > 0)
+        {
+            int bit = number % 2;
+            binaryList.Add(bit);
+            number /= 2;
+        }
+
+        binaryList.Reverse(); // Reverse to correct order
+        Debug.Log(binaryList);
+        Debug.Log("Binary Representation: " + string.Join(", ", binaryList));
     }
 
     int CountRelatedActivatedTexts()
