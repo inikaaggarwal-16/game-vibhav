@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
 public class ProceduralPropGenerator : MonoBehaviour
 {
     public Vector2 gridOrigin = new Vector2(-6.25f, -2.75f); // Bottom-left corner of the grid
@@ -21,6 +22,7 @@ public class ProceduralPropGenerator : MonoBehaviour
     private HashSet<Vector2> WrongOccupiedCells = new HashSet<Vector2>(); // Cells occupied by wrong door
     private HashSet<Vector2> RightOccupiedCells = new HashSet<Vector2>(); // Cells occupied by right door
     private HashSet<Vector2> portalOccupiedCells = new HashSet<Vector2>(); // Cells occupied by Portal (fixed positions)
+    public Light2D globalLight;
 
     private void Start()
     {
@@ -88,9 +90,13 @@ public class ProceduralPropGenerator : MonoBehaviour
         if (IsNearObject())
         {
            GameObject player = GameObject.FindGameObjectWithTag("Player");
+           globalLight = FindAnyObjectByType<Light2D>();
+
            
            Vector3 teleportPosition = stage3door.transform.position + new Vector3(0, 0.35f, 0);
            player.transform.position = teleportPosition;
+           globalLight.intensity = 0.1f;
+
         }
         else
         {
