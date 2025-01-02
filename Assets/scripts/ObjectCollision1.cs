@@ -85,7 +85,8 @@
 //fake tag count
 using UnityEngine;
 using TMPro;
-using System.Collections.Generic;  // Add this line to resolve the List<T> issue
+using System.Collections.Generic;
+using JetBrains.Annotations;  // Add this line to resolve the List<T> issue
 
 public class ObjectCollision : MonoBehaviour
 {
@@ -93,8 +94,10 @@ public class ObjectCollision : MonoBehaviour
     public TextMeshProUGUI countText; // Reference to the count display UI
     public TextMeshProUGUI gameOverText; // Reference to the Game Over display UI
     public GameObject player; // Reference to the player GameObject
-    
-    private void Start()
+    public List<int> fixedList = new List<int>();
+    public List<int> countList = new List<int>();
+    public GameObject teleportobject2;
+    public void Start()
     {
         // Disable the Game Over text at the start
         if (gameOverText != null)
@@ -106,7 +109,7 @@ public class ObjectCollision : MonoBehaviour
         UpdateCountDisplay();
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    public void OnTriggerEnter2D(Collider2D collider)
     {
         // Detect trigger collisions and log the name of the object
         Debug.Log("Triggered by: " + collider.gameObject.name);
@@ -126,6 +129,42 @@ public class ObjectCollision : MonoBehaviour
         {
             countList.Add(2); // Add to the list if tagged as "2"
             Debug.Log("Player touched 2. Updated list: " + ListToString());
+        }
+        fixedList = RandomTextActivator.binaryList;
+        CompareLists();
+        
+    }
+    void CompareLists()
+    {
+        
+        // Ensure comparison is only within the bounds of the shorter list
+        int minLength = Mathf.Min(fixedList.Count, countList.Count);
+
+        // Compare index-wise
+        for (int i = 0; i < minLength; i++)
+        {
+            if (fixedList[i] != countList[i])
+            {
+                Debug.Log($"Mismatch at index {i}: Fixed = {fixedList[i]}, Dynamic = {countList[i]}");
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                Vector3 teleport2 = teleportobject2.transform.position + new Vector3(0,0.5f,0);
+                player.transform.position = teleport2;
+                return;
+            }
+        }
+
+        // If all elements up to minLength match
+        if (fixedList.Count > countList.Count)
+        {
+            Debug.Log("Dynamic List matches up to its length but is shorter than Fixed List.");
+        }
+        else if (fixedList.Count <countList.Count)
+        {
+            Debug.Log("Dynamic List matches Fixed List but has extra elements.");
+        }
+        else
+        {
+            Debug.Log("Dynamic List matches Fixed List completely.");
         }
     }
 
@@ -205,10 +244,10 @@ public class ObjectCollision : MonoBehaviour
     }
 
     // List to store the count values (from trigger interactions)
-    private List<int> countList = new List<int>();
+   
 
     // Convert the count list to a string for debugging purposes
-    private string ListToString()
+    public string ListToString()
     {
         string result = "";
         foreach (int value in countList)

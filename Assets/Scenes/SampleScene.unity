@@ -4756,6 +4756,9 @@ MonoBehaviour:
   countText: {fileID: 2085576781}
   gameOverText: {fileID: 0}
   player: {fileID: 534427883}
+  fixedList: 
+  countList: 
+  teleportobject2: {fileID: 1203666079}
 --- !u!1 &539113195
 GameObject:
   m_ObjectHideFlags: 0
@@ -6792,6 +6795,7 @@ MonoBehaviour:
   activationRange: 0.69
   emptyObjectForFirstText: {fileID: 645370642}
   passdigit2: 0
+  finaldigit: 0
 --- !u!1 &764870933
 GameObject:
   m_ObjectHideFlags: 0
