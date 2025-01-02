@@ -74,7 +74,7 @@ public class ProceduralPropGenerator : MonoBehaviour
             // Check if the player is within range of this object.
             return (Vector2.Distance(player.transform.position, rightupdoor.transform.position) <= activationRange ||
              (Vector2.Distance(player.transform.position, rightdowndoor.transform.position) >= activationRange + 0.1f &&
-              Vector2.Distance(player.transform.position, rightdowndoor.transform.position) <= activationRange + 0.25f));
+              Vector2.Distance(player.transform.position, rightdowndoor.transform.position) <= activationRange + 0.2f));
         }
         else
         {
