@@ -1,5 +1,6 @@
 using TMPro; // Add this for TextMeshPro
 using UnityEngine;
+using UnityEngine.SceneManagement; // Add this for scene management
 
 public class DoorKeypad : MonoBehaviour
 {
@@ -8,10 +9,9 @@ public class DoorKeypad : MonoBehaviour
     public float activationRange = 5f; // Distance at which the keypad becomes active.
     public Transform player; // Assign the player's transform in the inspector.
     public Transform door; // Assign the door's transform in the inspector.
-    public Vector3 teleportPosition = new Vector3(-17, 0, 0); // Teleport position for incorrect password.
+    public TMP_InputField inputField; // Assign the TMP_InputField in the inspector.
 
     private string inputPassword = ""; // Stores the player's input password.
-    public TMP_InputField inputField; // Assign the TMP_InputField in the inspector.
 
     void Start()
     {
@@ -58,9 +58,9 @@ public class DoorKeypad : MonoBehaviour
         }
         else
         {
-            Debug.Log("Incorrect Password. Teleporting...");
-            // Teleport the player to the specified position.
-            player.position = teleportPosition;
+            Debug.Log("Incorrect Password. Game Over!");
+            // Trigger game over logic here.
+            GameOver();
         }
 
         // Reset the keypad input and hide the keypad UI.
@@ -69,6 +69,14 @@ public class DoorKeypad : MonoBehaviour
         {
             keypadUI.SetActive(false);
         }
+    }
+
+    private void GameOver()
+    {
+        // Implement your game over logic here.
+        Debug.Log("Game Over. Restarting level...");
+        // Example: Restart the current level.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ResetKeypad()
