@@ -12,27 +12,21 @@ public class RandomTextActivator : MonoBehaviour
 
     public GameObject emptyObjectForFirstText; // Assign the empty GameObject for positioning the first text.
     private Transform objectTransform; // Reference to the object's transform.
-    
-    // List to store activated texts.
-    private List<Text> activatedTexts = new List<Text>();
 
-    // Variable to store the count of related activated texts.
+    private List<Text> activatedTexts = new List<Text>(); // List to store activated texts.
     public int passdigit2 = 0;
     public int finaldigit;
     public static List<int> binaryList = new List<int>();
 
+    private bool isTextVisible = false; // Track if the texts are currently visible.
+    private bool isActivationLocked = false; // Track if activation is locked.
+
     void Start()
     {
-        // Store the object's transform.
         objectTransform = transform;
-
-        // Merge related and irrelated text objects into the textObjects list and shuffle it.
         MergeAndShuffleTextObjects();
-
-        // Deactivate all text objects at the start.
         DeactivateAllTextObjects();
 
-        // Initially hide the button.
         if (activateButton != null)
         {
             activateButton.gameObject.SetActive(false);
@@ -41,22 +35,15 @@ public class RandomTextActivator : MonoBehaviour
 
     void MergeAndShuffleTextObjects()
     {
-        // Clear the textObjects list before merging.
         textObjects.Clear();
-
-        // Add related and irrelated text objects to the final list.
         textObjects.AddRange(relatedTextObjects);
         textObjects.AddRange(irrelatedTextObjects);
-
-        // Shuffle the merged list.
         ShuffleList(textObjects);
-
         Debug.Log("Merged and Shuffled TextObjects Count: " + textObjects.Count);
     }
 
     void ShuffleList(List<Text> list)
     {
-        // Fisher-Yates Shuffle algorithm (also known as Knuth shuffle)
         int n = list.Count;
         for (int i = n - 1; i > 0; i--)
         {
@@ -69,7 +56,6 @@ public class RandomTextActivator : MonoBehaviour
 
     void DeactivateAllTextObjects()
     {
-        // Set all text objects to inactive.
         foreach (var text in textObjects)
         {
             text.gameObject.SetActive(false);
@@ -81,7 +67,6 @@ public class RandomTextActivator : MonoBehaviour
     {
         if (IsNearObject())
         {
-            // If the player is near, show the button.
             if (activateButton != null && !activateButton.gameObject.activeSelf)
             {
                 activateButton.gameObject.SetActive(true);
@@ -89,7 +74,6 @@ public class RandomTextActivator : MonoBehaviour
         }
         else
         {
-            // If the player is not near, hide the button.
             if (activateButton != null && activateButton.gameObject.activeSelf)
             {
                 activateButton.gameObject.SetActive(false);
@@ -99,12 +83,10 @@ public class RandomTextActivator : MonoBehaviour
 
     bool IsNearObject()
     {
-        // Find the player by its "Player" tag.
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
-            // Check if the player is within range of this object.
             return Vector2.Distance(player.transform.position, objectTransform.position) <= activationRange;
         }
         else
@@ -116,10 +98,30 @@ public class RandomTextActivator : MonoBehaviour
 
     public void OnActivateButtonClicked()
     {
+        if (isActivationLocked)
+        {
+            Debug.Log("Texts have already been activated and deactivated. Further activation is locked.");
+            return; // Do nothing if activation is locked.
+        }
+
         if (IsNearObject())
         {
-            ActivateRandomTexts();
-            UpdatePassdigit2(); // Update passdigit2 after activation.
+            if (isTextVisible)
+            {
+                // If texts are visible, hide them and lock further activations.
+                DeactivateAllTextObjects();
+                isTextVisible = false;
+                isActivationLocked = true; // Lock activation after texts are hidden.
+                Debug.Log("Texts are now hidden, and activation is locked.");
+            }
+            else
+            {
+                // If texts are not visible, show them.
+                ActivateRandomTexts();
+                isTextVisible = true;
+            }
+
+            UpdatePassdigit2();
         }
         else
         {
@@ -129,40 +131,30 @@ public class RandomTextActivator : MonoBehaviour
 
     void ActivateRandomTexts()
     {
-        // Determine how many texts to activate (at least 5, or fewer if not enough texts).
         int textsToActivate = Mathf.Min(5, textObjects.Count);
         List<Text> selectedTexts = new List<Text>();
 
-        // Ensure we get unique random texts.
         while (selectedTexts.Count < textsToActivate)
         {
             Text randomText = textObjects[Random.Range(0, textObjects.Count)];
-
-            // Avoid duplicating the same text.
             if (!selectedTexts.Contains(randomText))
             {
                 selectedTexts.Add(randomText);
             }
         }
 
-        // Deactivate all text objects first.
         DeactivateAllTextObjects();
 
-        // Activate the selected texts.
         foreach (var text in selectedTexts)
         {
             text.gameObject.SetActive(true);
-
-            // Store the activated text if not already in the list.
             if (!activatedTexts.Contains(text))
             {
                 activatedTexts.Add(text);
             }
         }
 
-        // Arrange the activated texts in decreasing y position.
         ArrangeActivatedTexts();
-
         Debug.Log("Activated " + selectedTexts.Count + " Texts.");
     }
 
@@ -170,17 +162,15 @@ public class RandomTextActivator : MonoBehaviour
     {
         if (activatedTexts.Count > 0)
         {
-            // First activated text gets position from empty GameObject.
             if (emptyObjectForFirstText != null)
             {
                 activatedTexts[0].transform.position = emptyObjectForFirstText.transform.position;
             }
 
-            // Arrange subsequent texts with decreasing y position.
             for (int i = 1; i < activatedTexts.Count; i++)
             {
-                Vector3 newPosition = activatedTexts[i-1].transform.position;
-                newPosition.y -= 50; // Decrease y position by 50 for each subsequent text.
+                Vector3 newPosition = activatedTexts[i - 1].transform.position;
+                newPosition.y -= 50;
                 activatedTexts[i].transform.position = newPosition;
             }
         }
@@ -188,33 +178,29 @@ public class RandomTextActivator : MonoBehaviour
 
     void UpdatePassdigit2()
     {
-        // Update the count of related activated texts in passdigit2.
         passdigit2 = CountRelatedActivatedTexts();
         Debug.Log("Updated passdigit2: " + passdigit2);
-        finaldigit = passdigit2 * 10 + 3 ;
-        Debug.Log("final digit "+ finaldigit);
+        finaldigit = passdigit2 * 10 + 3;
+        Debug.Log("final digit " + finaldigit);
         ConvertToBinaryList(finaldigit);
     }
 
     public void ConvertToBinaryList(int number)
     {
-        binaryList.Clear(); // Clear any existing data
-
+        binaryList.Clear();
         while (number > 0)
         {
             int bit = number % 2;
             binaryList.Add(bit);
             number /= 2;
         }
-
-        binaryList.Reverse(); // Reverse to correct order
+        binaryList.Reverse();
         Debug.Log(binaryList);
         Debug.Log("Binary Representation: " + string.Join(", ", binaryList));
     }
 
     int CountRelatedActivatedTexts()
     {
-        // Count how many activated texts are in the relatedTextObjects list.
         int count = 0;
         foreach (var text in activatedTexts)
         {
@@ -224,11 +210,5 @@ public class RandomTextActivator : MonoBehaviour
             }
         }
         return count;
-    }
-
-    public List<Text> GetActivatedTexts()
-    {
-        // Return the list of activated texts.
-        return activatedTexts;
     }
 }
