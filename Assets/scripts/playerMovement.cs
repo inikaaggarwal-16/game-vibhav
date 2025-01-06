@@ -8,13 +8,13 @@ public class playerMovement : MonoBehaviour
     private Animator animator;
     private int speed = 4;
     private Vector2 targetPosition;
-    public Vector2 startingPosition;
+    public static Vector2 startingPosition;
     private bool isMoving = false;
     private float cellSize = 0.5f;
 
     public LayerMask solidLayerMask;  // Layer mask for solid objects (walls and sprite colliders)
 
-    private void Awake()
+    public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         targetPosition = rb.position;
