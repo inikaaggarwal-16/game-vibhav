@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      eye-symbol-iso-circular-sign-is-1254_0: 6717334648361810395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
