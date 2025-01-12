@@ -54,7 +54,8 @@ public class DoorKeypad : MonoBehaviour
         if (inputPassword.ToLower() == correctPassword.ToLower()) // Case-insensitive check.
         {
             Debug.Log("Correct Password! You Win!");
-            // Optionally, implement winning logic here.
+            // Load the next scene.
+            SceneManager.LoadScene("next"); // Replace "next" with your desired scene name.
         }
         else
         {
