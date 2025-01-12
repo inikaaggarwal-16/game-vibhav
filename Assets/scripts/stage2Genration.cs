@@ -1,9 +1,10 @@
-
-
-
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
+using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 public class ProceduralPropGenerator : MonoBehaviour
 {
     public Vector2 gridOrigin = new Vector2(-6.25f, -2.75f); // Bottom-left corner of the grid
@@ -13,11 +14,17 @@ public class ProceduralPropGenerator : MonoBehaviour
     public float minDistance = 1.0f; // Minimum distance between objects of the same tag
     public float boundaryMargin = 1; // Margin near the boundary where objects should not spawn
     public GameObject insectPrefab; // Reference to the insect prefab
+    public GameObject stage3door;
+    public float activationRange;
+    public float activationwrongRange;
+    public Button openRightButton;
+    public Button openWrongButton;
 
     private HashSet<Vector2> occupiedCells = new HashSet<Vector2>(); // All occupied cells
     private HashSet<Vector2> WrongOccupiedCells = new HashSet<Vector2>(); // Cells occupied by wrong door
     private HashSet<Vector2> RightOccupiedCells = new HashSet<Vector2>(); // Cells occupied by right door
     private HashSet<Vector2> portalOccupiedCells = new HashSet<Vector2>(); // Cells occupied by Portal (fixed positions)
+    public Light2D globalLight;
 
     private void Start()
     {
@@ -38,6 +45,150 @@ public class ProceduralPropGenerator : MonoBehaviour
         // Generate insect props near corners
         GenerateInsectPropsNearCorners();
     }
+
+    void Update()
+{
+    bool isNearRightObject = IsNearRightObject();
+    bool isNearWrongObject = IsNearWrongObject();
+
+    if (isNearRightObject)
+    {
+        if (openRightButton != null)
+        {
+            openRightButton.gameObject.SetActive(true);
+        }
+
+        if (openWrongButton != null)
+        {
+            openWrongButton.gameObject.SetActive(false);
+        }
+    }
+    else if (isNearWrongObject)
+    {
+        if (openWrongButton != null)
+        {
+            openWrongButton.gameObject.SetActive(true);
+        }
+
+        if (openRightButton != null)
+        {
+            openRightButton.gameObject.SetActive(false);
+        }
+    }
+    else
+    {
+        if (openRightButton != null)
+        {
+            openRightButton.gameObject.SetActive(false);
+        }
+
+        if (openWrongButton != null)
+        {
+            openWrongButton.gameObject.SetActive(false);
+        }
+    }
+}
+
+
+public void ResetGame()
+    {
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+
+
+    bool IsNearWrongObject()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] wrongdoor = GameObject.FindGameObjectsWithTag("WrongDoor");
+        GameObject rightupdoor = GameObject.FindGameObjectWithTag("RightDoorUp");
+        GameObject rightdowndoor = GameObject.FindGameObjectWithTag("RightDoorDown");
+        if(player != null)
+        {
+            
+            
+            
+            return (Vector2.Distance(player.transform.position, wrongdoor[0].transform.position) <= activationwrongRange || 
+            Vector2.Distance(player.transform.position, wrongdoor[1].transform.position) <= activationwrongRange ||
+            Vector2.Distance(player.transform.position, wrongdoor[2].transform.position) <= activationwrongRange ||
+            Vector2.Distance(player.transform.position, wrongdoor[3].transform.position) <= activationwrongRange ||
+            Vector2.Distance(player.transform.position, rightdowndoor.transform.position) <= activationRange ||
+             (Vector2.Distance(player.transform.position, rightupdoor.transform.position) >= activationRange +0.01f &&
+              Vector2.Distance(player.transform.position, rightupdoor.transform.position) <= activationRange + 0.177f));
+            
+                
+            
+            
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool IsNearRightObject()
+    {
+        // Find the player by its "Player" tag.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject rightupdoor = GameObject.FindGameObjectWithTag("RightDoorUp");
+        GameObject rightdowndoor = GameObject.FindGameObjectWithTag("RightDoorDown");
+
+        if (player != null)
+        {
+            
+            // Check if the player is within range of this object.
+            return (Vector2.Distance(player.transform.position, rightupdoor.transform.position) <= activationRange ||
+             (Vector2.Distance(player.transform.position, rightdowndoor.transform.position) >= activationRange + 0.01f &&
+              Vector2.Distance(player.transform.position, rightdowndoor.transform.position) <= activationRange + 0.177f));
+        }
+        else
+        {
+            Debug.LogError("Player not found. Make sure the Player tag is assigned.");
+            return false;
+        }
+    }
+
+    public void OnActivateButtonClicked()
+    {
+        if (IsNearRightObject())
+        {
+           GameObject player = GameObject.FindGameObjectWithTag("Player");
+           globalLight = FindAnyObjectByType<Light2D>();
+
+           
+           Vector3 teleportPosition = stage3door.transform.position + new Vector3(0, 0.35f, 0);
+           player.transform.position = teleportPosition;
+           globalLight.intensity = 0.1f;
+
+           
+           
+
+        }
+        
+        else
+        {
+            Debug.Log("Player is not near the object.");
+        }
+       
+    }
+    public void OnWrongActivateButtonClicked()
+    {
+        if (IsNearWrongObject())
+        {
+           GameObject player = GameObject.FindGameObjectWithTag("Player");
+           Vector2 teleportPosition = playerMovement.startingPosition + new Vector2(0, 0.35f);
+           player.transform.position = teleportPosition;
+
+         ResetGame();
+        }
+        
+        else
+        {
+            Debug.Log("Player is not near the object.");
+        }
+    }
+
 
     // Store the positions of Portal objects (fixed positions)
     private void StorePortalPositions()
@@ -344,7 +495,7 @@ private void InstantiateInsectsAtPositions(List<Vector2> positions)
             {
                 insectMovement.SetValidPositions(positions);
             }
-        }
-    }
+        }
+    }
 }
 }

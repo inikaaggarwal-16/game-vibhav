@@ -17,6 +17,9 @@ TagManager:
   - Lamp
   - Fire
   - Teleport
+  - 0
+  - 1
+  - Disable
   layers:
   - Default
   - TransparentFX
@@ -57,6 +60,9 @@ TagManager:
   - name: SpecialLight
     uniqueID: 3847816427
     locked: 0
+  - name: doorsinfront
+    uniqueID: 999651519
+    locked: 0
   - name: Layer 1
     uniqueID: 2425651459
     locked: 0
@@ -65,6 +71,12 @@ TagManager:
     locked: 0
   - name: Layer 3
     uniqueID: 4189426099
+    locked: 0
+  - name: corners
+    uniqueID: 3210403851
+    locked: 0
+  - name: doors
+    uniqueID: 4098724129
     locked: 0
   m_RenderingLayers:
   - Default
