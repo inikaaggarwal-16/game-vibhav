@@ -1009,7 +1009,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AJIVIKA
+  m_Text: HARDWARE
 --- !u!1 &124631167
 GameObject:
   m_ObjectHideFlags: 0
@@ -8922,7 +8922,7 @@ GameObject:
   - component: {fileID: 943165693}
   m_Layer: 20
   m_Name: carryPosition
-  m_TagString: Untagged
+  m_TagString: Disable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9104,7 +9104,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: not5
+  m_Text: 
 --- !u!1 &988781495
 GameObject:
   m_ObjectHideFlags: 0
@@ -9801,7 +9801,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
@@ -9815,11 +9815,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
-  door: {fileID: 1951013313}
+  door: {fileID: 393462145}
 --- !u!114 &1051652135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9829,11 +9829,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
-  door: {fileID: 393462145}
+  door: {fileID: 1819058784}
 --- !u!114 &1051652136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9843,11 +9843,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
-  door: {fileID: 1819058784}
+  door: {fileID: 437132292}
 --- !u!114 &1051652137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9857,11 +9857,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
-  door: {fileID: 437132292}
+  door: {fileID: 1043237525}
 --- !u!114 &1051652138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9871,11 +9871,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051652129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780d835315d27e4e93daa951b825b67, type: 3}
+  m_Script: {fileID: 11500000, guid: 19fa8dfa1062b1d4a89bfe808a5041fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 534427883}
-  door: {fileID: 1043237525}
+  door: {fileID: 1951013313}
 --- !u!114 &1051652139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12503,7 +12503,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PCB FAULT DETECTION
+  m_Text: AR/VR
 --- !u!1 &1278556519
 GameObject:
   m_ObjectHideFlags: 0
@@ -16649,7 +16649,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ADD
+  m_Text: IOT
 --- !u!1 &1578798537
 GameObject:
   m_ObjectHideFlags: 0
@@ -17855,7 +17855,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LOOSING
+  m_Text: PRODYOGIKI
 --- !u!1 &1657997705
 GameObject:
   m_ObjectHideFlags: 0
@@ -32471,7 +32471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VRET
+  m_Text: EMBEDDED SYSTEMS
 --- !u!1 &1857478376
 GameObject:
   m_ObjectHideFlags: 0
@@ -32550,7 +32550,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CARD
+  m_Text: AI/ML
 --- !u!1 &1870156592
 GameObject:
   m_ObjectHideFlags: 0
@@ -35145,7 +35145,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: not4
+  m_Text: E-SUMMIT
 --- !u!1 &2123479989
 GameObject:
   m_ObjectHideFlags: 0
@@ -35224,7 +35224,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DRONE
+  m_Text: ELECTROTHON
 --- !u!1001 &1383824157110276935
 PrefabInstance:
   m_ObjectHideFlags: 0
