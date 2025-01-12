@@ -19,6 +19,7 @@ TagManager:
   - Teleport
   - 0
   - 1
+  - Disable
   layers:
   - Default
   - TransparentFX

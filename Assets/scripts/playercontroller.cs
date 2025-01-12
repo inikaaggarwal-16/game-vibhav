@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveStep = 0.2f;  
-    public float moveSpeed = 2f;   
+    public float moveSpeed = 2f; // Removed the extra 'a'
 
     private Rigidbody2D rb;
     private Vector2 moveDirection;
@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.W)) 
         {
             moveDirection = Vector2.up;
@@ -41,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
-        
         rb.MovePosition(rb.position + moveDirection * moveStep);
     }
 

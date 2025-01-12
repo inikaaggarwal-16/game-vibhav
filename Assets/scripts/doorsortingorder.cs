@@ -55,7 +55,6 @@ public class DoorSortingOrder : MonoBehaviour
         float playerY = player.transform.position.y;
         float doorY = door.transform.position.y;
 
-        
         if (playerY < doorY)
         {
             doorSpriteRenderer.sortingLayerName = "SpecialLight";
