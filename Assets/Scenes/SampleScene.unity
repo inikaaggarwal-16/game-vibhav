@@ -208,7 +208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19127689}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab306e10778a0ca418e744708b2009d8, type: 3}
   m_Name: 
@@ -5178,6 +5178,7 @@ MonoBehaviour:
   count: 3
   countText: {fileID: 2085576781}
   gameOverText: {fileID: 0}
+  messageText: {fileID: 0}
   player: {fileID: 534427883}
   fixedList: 
   countList: 
@@ -11360,6 +11361,7 @@ GameObject:
   - component: {fileID: 1150712330}
   - component: {fileID: 1150712329}
   - component: {fileID: 1150712328}
+  - component: {fileID: 1150712333}
   m_Layer: 19
   m_Name: orbGlowExtreme (3)
   m_TagString: Teleport
@@ -11524,6 +11526,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124631168}
   m_LocalEulerAnglesHint: {x: -45.82, y: 0, z: 0}
+--- !u!114 &1150712333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150712327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9a1323bb0554f4685f077fdc9f4eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button1: {fileID: 1742521605}
+  button2: {fileID: 918039980}
 --- !u!1 &1154502327
 GameObject:
   m_ObjectHideFlags: 0

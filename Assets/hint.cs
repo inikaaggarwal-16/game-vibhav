@@ -57,6 +57,7 @@ public class InteractiveObject : MonoBehaviour
         {
             isTextVisible = !isTextVisible;
             textUI.gameObject.SetActive(isTextVisible);
-        }
+      }
+      
     }
 }
