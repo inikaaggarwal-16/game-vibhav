@@ -102,6 +102,7 @@ public class RandomTextActivator : MonoBehaviour
         {
             Debug.Log("Texts have already been activated and deactivated. Further activation is locked.");
             return; // Do nothing if activation is locked.
+            
         }
 
         if (IsNearObject())
@@ -127,6 +128,8 @@ public class RandomTextActivator : MonoBehaviour
         {
             Debug.Log("Player is not near the object.");
         }
+
+        
     }
 
     void ActivateRandomTexts()
