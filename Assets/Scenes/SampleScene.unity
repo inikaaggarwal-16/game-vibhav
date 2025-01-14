@@ -16480,7 +16480,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Level  1: Explore\nFind 2 hints scattered around.\nIn hint 2-tell no.
+  m_text: "Level  1: Explore\nFind 2 hints scattered around.\nIn hint 1-tell no.
     of things relatable to VIBHAV \nLocate the portal to move to the next round.\nLevel
     2: Combination Puzzle\nChoose the correct combination from four corners to see
     correct colour of the doors\nYou only have one chance to choose the correct corner
