@@ -16480,12 +16480,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Round 1: Explore\nFind 2 hints scattered around.\nLocate the portal to
-    move to the next round.\nLevel 2: Combination Puzzle\nChoose the correct combination
-    from four corners to see correct colour of the doors\nYou only have one chance
-    to choose the correct corner \nSelect the correct door to proceed to Level 3.\nLevel
-    3: Meaning of Vibhav\nUse the hints from Round 1 to figure out the password.\nEnter
-    the correct password to win the game."
+  m_text: "Level  1: Explore\nFind 2 hints scattered around.\nIn hint 2-tell no.
+    of things relatable to VIBHAV \nLocate the portal to move to the next round.\nLevel
+    2: Combination Puzzle\nChoose the correct combination from four corners to see
+    correct colour of the doors\nYou only have one chance to choose the correct corner
+    \nSelect the correct door to proceed to Level 3.\nLevel 3: Meaning of Vibhav\nUse
+    the hints from Round 1 to figure out the password.\nEnter the correct password
+    to win the game."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16580,7 +16581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 146, y: 152}
+  m_AnchoredPosition: {x: 142, y: 170}
   m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1406454227
