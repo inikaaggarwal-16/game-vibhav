@@ -51,9 +51,11 @@ public class TimeLeapOnCollision : MonoBehaviour
     private GameObject player;
     private Rigidbody2D playerRb;
     private playerMovement playerMovementScript;
+    private float gameStartTime;
 
     void Start()
     {
+        gameStartTime = Time.time; // Record the game start time
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -62,16 +64,22 @@ public class TimeLeapOnCollision : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (player != null)
+        if (player != null && playerRb != null)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime; // Use fixedDeltaTime for physics updates
             if (timer >= timeInterval)
             {
-                // Periodically add the player's current position to the history
+                // Record the player's current position periodically
                 positionHistory.Add(playerRb.position);
                 timer = 0f;
+
+                // Optional: Limit history size to prevent excessive memory use
+                if (positionHistory.Count > 100) // Example limit
+                {
+                    positionHistory.RemoveAt(0);
+                }
             }
         }
     }
@@ -84,26 +92,31 @@ public class TimeLeapOnCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && playerRb != null && playerMovementScript != null)
         {
-            if (positionHistory.Count >= 5)
+            // Check if the game has been running for at least 3 seconds
+            if (Time.time - gameStartTime >= 3f)
             {
-                // Get the position to rewind to
-                Vector2 positionToRewind = positionHistory[positionHistory.Count - 3];
-
-                // Clear movement states
-                if (playerMovementScript != null)
+                if (positionHistory.Count >= 3)
                 {
+                    // Get the position to rewind to (third-last position)
+                    Vector2 positionToRewind = positionHistory[positionHistory.Count - 3];
+
+                    // Clear movement states
                     playerMovementScript.ResetMovement();
+
+                    // Teleport player using Rigidbody2D and reset velocity
+                    playerRb.position = positionToRewind;
+                    playerRb.linearVelocity = Vector2.zero;
+
+                    // Remove the rewound positions from history
+                    positionHistory.RemoveRange(positionHistory.Count - 3, 3);
                 }
-
-                // Teleport player using Rigidbody2D
-                playerRb.position = positionToRewind;
-
-                // Remove the rewound positions from history
-                positionHistory.RemoveRange(positionHistory.Count - 3, 3);
+            }
+            else
+            {
+                Debug.Log("Game has not been running for 3 seconds yet. No teleportation.");
             }
         }
     }
 }
-

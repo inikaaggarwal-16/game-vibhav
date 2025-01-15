@@ -1,10 +1,10 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 public class ProceduralPropGenerator : MonoBehaviour
 {
     public Vector2 gridOrigin = new Vector2(-6.25f, -2.75f); // Bottom-left corner of the grid
@@ -89,6 +89,15 @@ public class ProceduralPropGenerator : MonoBehaviour
     }
 }
 
+
+public void ResetGame()
+    {
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+
+
     bool IsNearWrongObject()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -152,12 +161,16 @@ public class ProceduralPropGenerator : MonoBehaviour
            player.transform.position = teleportPosition;
            globalLight.intensity = 0.1f;
 
+           
+           
+
         }
         
         else
         {
             Debug.Log("Player is not near the object.");
         }
+       
     }
     public void OnWrongActivateButtonClicked()
     {
@@ -166,7 +179,8 @@ public class ProceduralPropGenerator : MonoBehaviour
            GameObject player = GameObject.FindGameObjectWithTag("Player");
            Vector2 teleportPosition = playerMovement.startingPosition + new Vector2(0, 0.35f);
            player.transform.position = teleportPosition;
-         
+
+         ResetGame();
         }
         
         else
@@ -481,7 +495,7 @@ private void InstantiateInsectsAtPositions(List<Vector2> positions)
             {
                 insectMovement.SetValidPositions(positions);
             }
-        }
-    }
+        }
+    }
 }
 }
