@@ -64,11 +64,11 @@ public class TimeLeapOnCollision : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (player != null)
+        if (player != null && playerRb != null)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime; // Use fixedDeltaTime for physics updates
             if (timer >= timeInterval)
             {
                 // Record the player's current position periodically
@@ -92,7 +92,7 @@ public class TimeLeapOnCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && playerRb != null && playerMovementScript != null)
         {
             // Check if the game has been running for at least 3 seconds
             if (Time.time - gameStartTime >= 3f)
@@ -103,10 +103,7 @@ public class TimeLeapOnCollision : MonoBehaviour
                     Vector2 positionToRewind = positionHistory[positionHistory.Count - 3];
 
                     // Clear movement states
-                    if (playerMovementScript != null)
-                    {
-                        playerMovementScript.ResetMovement();
-                    }
+                    playerMovementScript.ResetMovement();
 
                     // Teleport player using Rigidbody2D and reset velocity
                     playerRb.position = positionToRewind;
@@ -118,7 +115,6 @@ public class TimeLeapOnCollision : MonoBehaviour
             }
             else
             {
-                // Optional: Add a log or some feedback if needed
                 Debug.Log("Game has not been running for 3 seconds yet. No teleportation.");
             }
         }
