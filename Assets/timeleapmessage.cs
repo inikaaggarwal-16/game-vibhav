@@ -6,8 +6,6 @@ public class CollisionMessageHandler : MonoBehaviour
 {
     public GameObject leapMessagePanel; // UI panel with image and text for "Leap"
     public GameObject fakeMessagePanel; // UI panel with image and text for "Fake"
-    private bool hasShownLeapMessage = false; // Flag to ensure "Leap" message shows only once
-    private bool hasShownFakeMessage = false; // Flag to ensure "Fake" message shows only once
 
     void Start()
     {
@@ -24,22 +22,21 @@ public class CollisionMessageHandler : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Leap") && !hasShownLeapMessage)
+        if (collision.gameObject.CompareTag("Leap"))
         {
-            ShowMessagePanel(leapMessagePanel, ref hasShownLeapMessage);
+            ShowMessagePanel(leapMessagePanel);
         }
-        else if (collision.gameObject.CompareTag("Fake") && !hasShownFakeMessage)
+        else if (collision.gameObject.CompareTag("Fake"))
         {
-            ShowMessagePanel(fakeMessagePanel, ref hasShownFakeMessage);
+            ShowMessagePanel(fakeMessagePanel);
         }
     }
 
-    private void ShowMessagePanel(GameObject messagePanel, ref bool hasShownMessage)
+    private void ShowMessagePanel(GameObject messagePanel)
     {
         if (messagePanel != null)
         {
             messagePanel.SetActive(true); // Show the message panel
-            hasShownMessage = true; // Set flag to true to prevent future displays
 
             // Optionally hide the panel after a few seconds
             StartCoroutine(HideMessageAfterDelay(messagePanel, 3f)); // 3-second delay
